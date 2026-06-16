@@ -68,6 +68,8 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ...
 
 ---
 
+
+
 ## Règles RLS
 
 - **Lecture publique** sur `quizzes`, `questions`, `answers`, `participants`, `responses`.
