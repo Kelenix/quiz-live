@@ -24,7 +24,7 @@ export function JoinQR({ code }: { code: string }) {
     <div className="flex flex-col items-center gap-4">
       <div className="rounded-2xl bg-white p-4 shadow-glow">
         {url ? (
-          <QRCodeCanvas value={url} size={196} bgColor="#ffffff" fgColor="#0f0f1a" includeMargin={false} />
+          <QRCodeCanvas value={url} size={196} bgColor="#ffffff" fgColor="#121212" includeMargin={false} />
         ) : (
           <div className="h-[196px] w-[196px] animate-pulse bg-zinc-200" />
         )}

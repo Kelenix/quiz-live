@@ -121,7 +121,7 @@ export function QuestionEditor({
                     className={cn(
                       "flex-1 rounded-xl border px-3 py-2 text-xs font-medium transition",
                       question.type === t
-                        ? "border-accent-violet/60 bg-accent-violet/20 text-white"
+                        ? "border-accent-primary/60 bg-accent-primary/20 text-white"
                         : "border-bg-border bg-bg-soft/40 text-zinc-400 hover:text-zinc-200",
                     )}
                   >

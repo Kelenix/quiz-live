@@ -1,4 +1,4 @@
-export type QuizCategory = "HTML" | "CSS" | "JS" | "C" | "SQL" | "IA" | "Autre";
+export type QuizCategory = "HTML" | "CSS" | "JS" | "Java" | "Python" | "SQL";
 export type QuizStatus = "draft" | "waiting" | "live" | "finished";
 export type QuestionType = "single" | "multiple" | "truefalse";
 

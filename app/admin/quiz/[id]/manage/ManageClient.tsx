@@ -196,7 +196,7 @@ export function ManageClient({
               </button>
             )}
             {quiz.status === "finished" && (
-              <div className="rounded-xl border border-indigo-500/40 bg-indigo-500/10 p-3 text-center text-sm text-indigo-200">
+              <div className="rounded-xl border border-sky-500/40 bg-sky-500/10 p-3 text-center text-sm text-sky-200">
                 Quiz terminé.
               </div>
             )}

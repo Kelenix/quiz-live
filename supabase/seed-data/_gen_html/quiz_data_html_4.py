@@ -1,0 +1,236 @@
+from helpers_html import S, Sx, M, T, quiz
+
+def get_quizzes():
+    quizzes = []
+
+    quizzes.append(quiz(
+        "Validation W3C du code HTML",
+        "Vérifier la conformité d'un document HTML aux spécifications officielles.",
+        [
+            S("Quel organisme propose un service de validation en ligne du code HTML par rapport aux spécifications ?",
+              ["Le W3C, via son service de validation de markup", "Google Search Console", "Le navigateur Chrome uniquement", "GitHub"]),
+            S("Qu'est-ce qu'un document HTML 'valide' au sens du W3C ?",
+              ["Un document conforme aux règles de syntaxe et de structure de la spécification HTML", "Un document qui s'affiche sans bug visuel", "Un document utilisant uniquement des balises sémantiques", "Un document sans aucun CSS"]),
+            S("Lequel de ces problèmes serait typiquement signalé par un validateur HTML ?",
+              ["Une balise non fermée correctement", "Une couleur de texte peu contrastée", "Un temps de chargement trop long", "Une image trop volumineuse"]),
+            Sx("Pourquoi valider son HTML peut-il être utile, même si le navigateur affiche correctement la page malgré des erreurs ?",
+               ["Les navigateurs corrigent silencieusement certaines erreurs, ce qui peut masquer des bugs ou nuire à la compatibilité future", "La validation est obligatoire pour publier un site", "Un code invalide bloque systématiquement le rendu", "La validation améliore automatiquement le référencement"], 0),
+            T("Un document peut s'afficher correctement dans un navigateur tout en contenant des erreurs de validation HTML.", True),
+            T("La validation HTML garantit automatiquement que le site respecte les normes d'accessibilité.", False),
+            M("Quels types d'erreurs un validateur HTML peut détecter ?",
+              ["Des balises imbriquées de façon incorrecte", "Des attributs obligatoires manquants", "Des balises non reconnues ou mal fermées"],
+              ["Des couleurs de texte mal choisies", "Des temps de réponse serveur trop longs"]),
+            M("Quelles affirmations sur la validation W3C sont correctes ?",
+              ["Elle s'appuie sur les spécifications publiques du HTML", "Elle peut être lancée sur une URL ou un fichier local"],
+              ["Elle teste automatiquement la performance JavaScript", "Elle remplace les tests utilisateurs"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Images responsives : srcset et sizes en détail",
+        "Optimiser le chargement des images selon la taille de l'écran.",
+        [
+            S("Quel attribut de <img> liste plusieurs fichiers image avec leur largeur intrinsèque, pour que le navigateur choisisse la plus adaptée ?",
+              ["srcset", "sizes", "media", "source-list"]),
+            S("Quel attribut indique au navigateur la largeur d'affichage prévue de l'image selon le viewport, afin de mieux choisir la source dans srcset ?",
+              ["sizes", "srcset", "width", "viewport"]),
+            S("Dans srcset, quelle unité descripteur indique la largeur intrinsèque d'un fichier image (par exemple 480w) ?",
+              ["w (largeur en pixels)", "x (densité de pixels)", "px (taille CSS)", "vw (viewport width)"]),
+            Sx("Quel est l'objectif principal des images responsives avec srcset/sizes ?",
+               ["Servir une image de résolution adaptée pour économiser de la bande passante sans sacrifier la qualité perçue", "Empêcher le zoom sur les images", "Forcer toutes les images à la même taille", "Remplacer totalement le CSS de mise en page"], 0),
+            T("L'élément <picture> permet d'aller plus loin que srcset en changeant non seulement la résolution mais aussi le cadrage ou le format de l'image selon le contexte.", True),
+            T("L'attribut srcset rend l'attribut src totalement inutile et interdit sur <img>.", False),
+            M("Quels éléments ou attributs participent à la mise en place d'images responsives ?",
+              ["srcset", "sizes", "<picture> avec <source>"],
+              ["loading='eager' uniquement", "alt"]),
+            M("Quelles affirmations sur <picture> sont correctes ?",
+              ["Le navigateur choisit la première <source> dont la media query correspond", "Il doit inclure un <img> de repli pour les navigateurs ne supportant pas picture"],
+              ["Il interdit l'utilisation de l'attribut alt", "Il remplace obligatoirement les balises <figure>"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Microdata et schema.org : notions de base",
+        "Enrichir le HTML avec des données structurées compréhensibles par les moteurs de recherche.",
+        [
+            S("Quel attribut HTML permet de déclarer qu'un élément représente un élément de données structurées (microdata) ?",
+              ["itemscope", "dataitem", "schema", "structured"]),
+            S("Quel attribut précise le vocabulaire utilisé pour décrire le type d'un élément, par exemple une page de produit ou un article ?",
+              ["itemtype", "itemkind", "schema-type", "datatype"]),
+            S("Quel vocabulaire collaboratif largement utilisé fournit des types standardisés (Product, Article, Person, etc.) pour les données structurées ?",
+              ["schema.org", "OpenGraph uniquement", "JSON only", "RDF only"]),
+            Sx("Quel est l'intérêt principal d'ajouter des données structurées (microdata ou JSON-LD) à une page HTML ?",
+               ["Aider les moteurs de recherche à mieux comprendre et enrichir l'affichage du contenu (rich snippets)", "Accélérer le chargement de la page", "Remplacer le besoin de balises meta description", "Sécuriser les formulaires"], 0),
+            T("Les données structurées peuvent aussi être ajoutées via un bloc JSON-LD séparé du markup visuel, sans utiliser les attributs microdata.", True),
+            T("L'utilisation de microdata est obligatoire pour qu'une page HTML soit valide.", False),
+            M("Quels attributs sont utilisés par la syntaxe microdata en HTML ?",
+              ["itemscope", "itemtype", "itemprop"],
+              ["dataprop", "metaitem"]),
+            M("Quelles affirmations sur schema.org sont correctes ?",
+              ["Il propose des types comme Article, Recipe ou Event", "Il est soutenu conjointement par plusieurs moteurs de recherche majeurs"],
+              ["Il remplace entièrement le CSS", "Il est uniquement utilisable en français"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Tableaux : accessibilité et bonnes pratiques",
+        "Rendre les tableaux de données compréhensibles pour tous les utilisateurs.",
+        [
+            S("Quel attribut sur <th> précise si l'en-tête s'applique à 'col' (colonne) ou 'row' (ligne) ?",
+              ["scope", "for", "headers", "axis"]),
+            S("Quel élément donne un titre accessible et visible à l'ensemble d'un tableau ?",
+              ["<caption>", "<title>", "<th>", "<legend>"]),
+            S("Pourquoi est-il déconseillé d'utiliser un <table> uniquement pour la mise en page visuelle d'une page (et non pour des données tabulaires) ?",
+              ["Cela nuit à l'accessibilité car les lecteurs d'écran annoncent une structure de données inexistante", "Les tableaux de mise en page sont interdits par le HTML", "Cela ralentit JavaScript", "Cela empêche le CSS de fonctionner"]),
+            Sx("Quel attribut permet d'associer explicitement une cellule de données à un ou plusieurs en-têtes via leurs identifiants, utile pour les tableaux complexes ?",
+               ["headers", "scope", "for", "linked-to"], 0),
+            T("Un tableau de données bien structuré avec <th> et scope facilite grandement la navigation pour les utilisateurs de lecteurs d'écran.", True),
+            T("L'attribut summary sur <table> est la méthode actuellement recommandée en HTML5 pour décrire un tableau complexe.", False),
+            M("Quelles pratiques améliorent l'accessibilité d'un tableau de données ?",
+              ["Utiliser <th> pour les en-têtes avec scope approprié", "Fournir un <caption> descriptif", "Éviter les tableaux imbriqués complexes sans nécessité"],
+              ["Utiliser uniquement des <td> sans aucun <th>", "Mélanger des données de natures différentes sans structure claire"]),
+            M("Quelles affirmations sur les tableaux de mise en page (layout tables) sont correctes ?",
+              ["Ils sont déconseillés depuis l'avènement de CSS Grid et Flexbox", "Ils peuvent semer la confusion pour les technologies d'assistance"],
+              ["Ils sont la méthode recommandée actuelle pour la mise en page", "Ils sont interdits techniquement par les navigateurs"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Formulaires : attributs d'accessibilité avancés",
+        "Combiner aria-describedby, aria-invalid et autres attributs pour des formulaires accessibles.",
+        [
+            S("Quel attribut ARIA relie un champ à un texte d'aide ou de description supplémentaire, par exemple des instructions de format ?",
+              ["aria-describedby", "aria-label", "aria-help", "aria-detail"]),
+            S("Quel attribut ARIA indique que la valeur saisie dans un champ est actuellement invalide ?",
+              ["aria-invalid", "aria-error", "aria-wrong", "aria-bad"]),
+            S("Quel attribut HTML natif (non ARIA) indique également qu'un champ est obligatoire, en plus de la validation ?",
+              ["required", "mandatory", "aria-required uniquement", "must-fill"]),
+            Sx("Pourquoi utiliser aria-describedby en complément d'un message d'erreur affiché visuellement sous un champ ?",
+               ["Pour que les lecteurs d'écran annoncent aussi ce message lorsqu'ils décrivent le champ", "Pour changer la couleur du champ automatiquement", "Pour valider automatiquement le formulaire", "Pour masquer le message visuellement"], 0),
+            T("Un attribut required HTML natif déclenche une infobulle de validation native dans la plupart des navigateurs si le champ est vide à la soumission.", True),
+            T("aria-invalid='true' modifie automatiquement l'apparence visuelle du champ sans CSS additionnel.", False),
+            M("Quels attributs contribuent à l'accessibilité des messages d'erreur de formulaire ?",
+              ["aria-describedby", "aria-invalid", "role='alert' sur le message"],
+              ["placeholder uniquement", "tabindex='5'"]),
+            M("Quelles affirmations sur l'accessibilité des formulaires sont correctes ?",
+              ["Un placeholder ne doit pas remplacer un vrai <label>", "Les messages d'erreur doivent être perceptibles sans dépendre uniquement de la couleur"],
+              ["aria-invalid remplace l'attribut required", "Le placeholder a le même contraste obligatoire que le texte saisi"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Liens : attributs avancés et bonnes pratiques",
+        "Aller plus loin avec les attributs download, hreflang et rel sur les liens.",
+        [
+            S("Quel attribut sur <a> propose de télécharger la ressource liée plutôt que de la naviguer normalement ?",
+              ["download", "save", "export", "file"]),
+            S("Quel attribut sur <a> indique la langue de la ressource pointée par le lien ?",
+              ["hreflang", "lang", "lang-target", "translate"]),
+            S("Quelle valeur de rel indique aux moteurs de recherche de ne pas suivre ce lien pour le calcul du référencement ?",
+              ["nofollow", "noindex", "norank", "external"]),
+            Sx("Quel est le risque principal d'ouvrir un lien externe avec target='_blank' sans l'attribut rel='noopener' ?",
+               ["La page ouverte peut accéder à window.opener et potentiellement rediriger la page d'origine (tabnabbing)", "Le lien ne s'ouvre jamais", "Le navigateur bloque systématiquement la requête", "Cela ralentit uniquement le CSS"], 0),
+            T("L'attribut download peut recevoir une valeur définissant le nom de fichier suggéré lors du téléchargement.", True),
+            T("L'attribut hreflang change automatiquement la langue de toute la page courante.", False),
+            M("Quelles valeurs sont des valeurs reconnues de l'attribut rel sur <a> ?",
+              ["noopener", "noreferrer", "nofollow"],
+              ["nostyle", "noscript-link"]),
+            M("Quelles affirmations sur les liens externes sont correctes ?",
+              ["Ajouter rel='noopener noreferrer' renforce la sécurité et la confidentialité", "target='_blank' ouvre la ressource dans un nouveau contexte de navigation"],
+              ["Tous les liens doivent obligatoirement s'ouvrir dans un nouvel onglet", "L'attribut href est facultatif si target est défini"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Formulaires : regroupement et soumission",
+        "Comprendre comment les données de formulaire sont envoyées au serveur.",
+        [
+            S("Quel attribut du formulaire définit l'URL vers laquelle les données sont envoyées lors de la soumission ?",
+              ["action", "method", "target", "destination"]),
+            S("Quelle méthode HTTP est généralement utilisée pour soumettre des données sensibles ou volumineuses via un formulaire ?",
+              ["POST", "GET", "PUT", "HEAD"]),
+            S("Quel attribut du bouton ou du formulaire détermine le type d'encodage utilisé pour l'envoi de fichiers ?",
+              ["enctype", "encoding", "filetype", "content-type"]),
+            Sx("Quel attribut HTML sur <button> ou <input type='submit'> permet de déclencher la soumission du formulaire englobant ?",
+               ["type='submit'", "type='button'", "type='form'", "action='submit'"], 0),
+            T("Avec la méthode GET, les données du formulaire apparaissent visibles dans l'URL sous forme de paramètres de requête.", True),
+            T("L'attribut enctype='multipart/form-data' est nécessaire pour permettre l'envoi de fichiers via un formulaire.", True),
+            M("Quels attributs ou valeurs concernent l'envoi de données de formulaire ?",
+              ["method='post'", "enctype='multipart/form-data'", "action"],
+              ["autoplay", "controls"]),
+            M("Quelles affirmations sur les boutons de formulaire sont correctes ?",
+              ["type='reset' réinitialise les champs aux valeurs par défaut", "type='button' ne soumet pas automatiquement le formulaire"],
+              ["type='submit' est la valeur par défaut de <input> sans attribut type", "Tous les boutons soumettent obligatoirement le formulaire"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Attributs globaux avancés : contenteditable, draggable, hidden",
+        "Explorer des attributs globaux moins courants mais utiles.",
+        [
+            S("Quel attribut global rend le contenu d'un élément directement modifiable par l'utilisateur dans la page ?",
+              ["contenteditable", "editable", "writable", "input"]),
+            S("Quel attribut global masque un élément de l'affichage tout en le laissant présent dans le DOM ?",
+              ["hidden", "invisible", "display-none", "collapsed"]),
+            S("Quel attribut global indique qu'un élément peut être déplacé via un glisser-déposer (drag and drop) ?",
+              ["draggable", "movable", "dragdrop", "sortable"]),
+            Sx("Quelle est la différence entre l'attribut hidden et la propriété CSS display:none appliquée via une classe ?",
+               ["hidden est un attribut HTML natif simple, tandis que display:none nécessite du CSS, mais leur effet visuel final est similaire", "hidden supprime totalement l'élément du DOM", "display:none rend l'élément focusable au clavier", "hidden ne fonctionne que sur les images"], 0),
+            T("L'attribut contenteditable peut prendre la valeur 'true' ou être simplement présent pour activer l'édition.", True),
+            T("L'attribut spellcheck permet de désactiver ou activer la vérification orthographique du navigateur sur un champ éditable.", True),
+            M("Quels attributs globaux modifient le comportement interactif d'un élément ?",
+              ["contenteditable", "draggable", "tabindex"],
+              ["alt", "colspan"]),
+            M("Quelles affirmations sur l'attribut hidden sont correctes ?",
+              ["Un style CSS peut potentiellement surcharger son comportement par défaut", "Il peut être retiré ou ajouté dynamiquement via JavaScript"],
+              ["Il rend l'élément accessible aux lecteurs d'écran malgré tout", "Il est obligatoire sur tous les éléments de formulaire"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Les attributs de l'élément html et de l'élément body",
+        "Configurer la langue du document et les propriétés globales du corps de page.",
+        [
+            S("Quel attribut sur l'élément <html> définit la langue principale du contenu de la page ?",
+              ["lang", "language", "locale", "translate"]),
+            S("Quel code de langue représente le français selon la norme ISO utilisée dans l'attribut lang ?",
+              ["fr", "fra", "french", "FR-fr"]),
+            S("Quel attribut sur <html> permet de définir le sens d'écriture du texte, par exemple de droite à gauche ?",
+              ["dir", "direction", "writing-mode", "rtl"]),
+            Sx("Pourquoi déclarer correctement l'attribut lang sur <html> est-il important ?",
+               ["Cela aide les lecteurs d'écran à utiliser la bonne prononciation et améliore le référencement multilingue", "Cela accélère le chargement du CSS", "Cela change automatiquement le design de la page", "Cela est requis pour activer JavaScript"], 0),
+            T("La valeur de l'attribut dir peut être 'ltr', 'rtl' ou 'auto'.", True),
+            T("L'élément <body> ne peut contenir qu'un seul élément enfant direct au maximum.", False),
+            M("Quels attributs globaux sont couramment utilisés sur l'élément <html> ?",
+              ["lang", "dir"],
+              ["src", "controls"]),
+            M("Quelles affirmations sur l'attribut lang sont correctes ?",
+              ["Il peut aussi être appliqué sur un élément spécifique pour signaler un changement de langue local", "Sa valeur suit généralement la norme BCP 47 (ex : fr, en-US)"],
+              ["Il doit obligatoirement être identique sur chaque balise de la page", "Il remplace l'attribut charset"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Quotation et citations en HTML",
+        "Distinguer blockquote, q et cite pour représenter des citations.",
+        [
+            S("Quel élément représente une citation longue, généralement mise en retrait visuellement ?",
+              ["<blockquote>", "<quote>", "<cite>", "<q>"]),
+            S("Quel élément représente une courte citation en ligne, généralement entourée de guillemets automatiques par le navigateur ?",
+              ["<q>", "<blockquote>", "<quote>", "<short>"]),
+            S("Quel élément référence le titre d'une œuvre citée (livre, film, chanson), plutôt que l'auteur lui-même ?",
+              ["<cite>", "<author>", "<source>", "<reference>"]),
+            Sx("Quel attribut de <blockquote> permet d'indiquer l'URL de la source de la citation ?",
+               ["cite", "src", "href", "source"], 0),
+            T("Le navigateur ajoute généralement automatiquement des guillemets visuels autour du contenu d'un élément <q>.", True),
+            T("L'élément <cite> doit obligatoirement contenir le nom complet d'une personne physique.", False),
+            M("Quels éléments HTML sont liés à la citation de contenu externe ?",
+              ["<blockquote>", "<q>", "<cite>"],
+              ["<mark>", "<time>"]),
+            M("Quelles affirmations sur <blockquote> sont correctes ?",
+              ["Il peut contenir plusieurs paragraphes", "L'attribut cite n'est pas affiché visuellement par défaut, mais reste sémantiquement utile"],
+              ["Il doit toujours être affiché en rouge par défaut", "Il remplace obligatoirement les guillemets typographiques"]),
+        ],
+    ))
+
+    return quizzes

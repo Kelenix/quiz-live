@@ -1,0 +1,236 @@
+from helpers_html import S, Sx, M, T, quiz
+
+def get_quizzes():
+    quizzes = []
+
+    quizzes.append(quiz(
+        "L'élément meta : du SEO à la sécurité",
+        "Aller au-delà du SEO de base avec les balises meta de configuration.",
+        [
+            S("Quelle balise meta peut empêcher l'indexation d'une page par les moteurs de recherche ?",
+              ['<meta name="robots" content="noindex">', '<meta name="seo" content="off">', '<meta name="block">', '<meta name="hidden">'] ),
+            S("Quelle balise meta historique permettait de rafraîchir ou rediriger automatiquement une page après un délai ?",
+              ['<meta http-equiv="refresh">', '<meta name="redirect">', '<meta name="reload">', '<meta http-equiv="redirect">']),
+            S("Quel attribut de meta indique le nom de l'application web sur certains systèmes mobiles ?",
+              ["application-name", "app-title", "mobile-name", "site-name"]),
+            Sx("Pourquoi la redirection via meta refresh est-elle généralement déconseillée par rapport à une redirection serveur (HTTP 301/302) ?",
+               ["Elle est moins fiable, moins accessible et perçue moins favorablement par les moteurs de recherche", "Elle ne fonctionne sur aucun navigateur moderne", "Elle nécessite obligatoirement JavaScript", "Elle remplace l'attribut charset"], 0),
+            T("La balise meta robots peut combiner plusieurs directives séparées par des virgules, comme noindex et nofollow.", True),
+            T("La balise meta name='robots' a un effet garanti et immédiat sur tous les moteurs de recherche sans exception.", False),
+            M("Quelles directives sont valides dans une balise meta robots ?",
+              ["noindex", "nofollow", "noarchive"],
+              ["norender", "nojs"]),
+            M("Quelles affirmations sur les balises meta sont correctes ?",
+              ["Elles se placent dans l'élément <head>", "Elles peuvent influencer l'indexation, l'affichage ou le comportement de la page"],
+              ["Elles modifient directement le contenu visible du corps de page", "Elles sont toutes obligatoires pour qu'une page soit valide"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Sections et hiérarchie de contenu (outline implicite)",
+        "Comprendre comment les éléments sémantiques influencent la structure logique d'une page.",
+        [
+            S("Quel élément permet de définir une section thématique avec généralement son propre titre h2-h6 ?",
+              ["<section>", "<div>", "<span>", "<group>"]),
+            S("Quelle est la principale différence sémantique entre <div> et <section> ?",
+              ["<section> a une signification thématique alors que <div> est un conteneur générique sans signification", "<div> ne peut pas contenir de texte", "<section> est obligatoirement vide", "<div> est plus récent que section"]),
+            S("Quel type de structure devrait idéalement accompagner un <section> pour rester accessible ?",
+              ["Un titre (h2 à h6) qui décrit son contenu", "Un attribut colspan", "Un attribut href", "Une image obligatoire"]),
+            Sx("Dans quel cas est-il préférable d'utiliser un simple <div> plutôt qu'un <section> ?",
+               ["Quand le regroupement est purement utilitaire pour le style ou le script, sans signification thématique propre", "Quand le contenu a un titre clair", "Quand le contenu représente un article complet", "Quand on veut améliorer le SEO à tout prix"], 0),
+            T("Un usage excessif de <section> sans titre associé peut nuire à la clarté de la structure du document pour les technologies d'assistance.", True),
+            T("L'élément <section> doit obligatoirement être un enfant direct de <body>.", False),
+            M("Quelles affirmations sur le choix entre <div> et <section> sont correctes ?",
+              ["section implique une cohérence thématique du contenu", "div reste pertinent pour des besoins de style ou de script sans sens propre"],
+              ["section et div sont strictement interchangeables sans nuance", "div est interdit en HTML5"]),
+            M("Quels éléments contribuent à la structure logique (outline) d'un document HTML ?",
+              ["<section>", "<article>", "<h2> à <h6>"],
+              ["<br>", "<span>"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Le bouton et le lien : quand utiliser quoi",
+        "Distinguer les usages appropriés entre l'élément a et l'élément button.",
+        [
+            S("Quel élément est sémantiquement approprié pour naviguer vers une autre page ou ressource ?",
+              ["<a> avec un attribut href", "<button>", "<div onclick>", "<span onclick>"]),
+            S("Quel élément est sémantiquement approprié pour déclencher une action sur la page courante, comme ouvrir une modale ?",
+              ["<button>", "<a> sans href", "<div>", "<p>"]),
+            S("Que se passe-t-il pour l'accessibilité si l'on utilise un <div> avec un gestionnaire de clic JavaScript à la place d'un <button> ?",
+              ["L'élément n'est pas focusable ni activable au clavier nativement, ce qui nuit à l'accessibilité", "Rien, le comportement est strictement identique à button", "Le CSS ne peut plus s'appliquer", "Le div devient automatiquement un lien"]),
+            Sx("Quel est le risque d'utiliser <a href='#'> uniquement pour déclencher du JavaScript, sans navigation réelle ?",
+               ["Cela peut dérouter les utilisateurs et les technologies d'assistance qui s'attendent à une navigation", "Cela accélère le chargement de la page", "Cela est interdit techniquement par le navigateur", "Cela désactive automatiquement le CSS"], 0),
+            T("Un <button> est focusable et activable au clavier (Entrée ou Espace) nativement, sans JavaScript additionnel.", True),
+            T("Un lien <a> sans attribut href est automatiquement focusable au clavier comme un bouton natif.", False),
+            M("Quelles bonnes pratiques distinguent l'usage de <a> et <button> ?",
+              ["Utiliser <a> pour la navigation vers une URL", "Utiliser <button> pour des actions sans changement d'URL"],
+              ["Utiliser systématiquement <div> à la place des deux", "Réserver <a> uniquement aux images"]),
+            M("Quelles affirmations sur l'accessibilité native de <button> et <a href> sont correctes ?",
+              ["Ils sont inclus par défaut dans l'ordre de tabulation", "Ils répondent aux événements clavier standards sans script supplémentaire"],
+              ["Ils nécessitent toujours un attribut role pour être reconnus", "Ils sont invisibles aux lecteurs d'écran par défaut"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Attributs de tableau pour le tri et le regroupement visuel",
+        "Approfondir colgroup, col et la mise en forme de colonnes entières.",
+        [
+            S("Quel élément permet d'appliquer un style ou une largeur à toute une colonne d'un tableau sans répéter l'attribut sur chaque cellule ?",
+              ["<col>", "<td>", "<th>", "<colspan>"]),
+            S("Où l'élément <colgroup> doit-il être placé dans la structure d'un tableau ?",
+              ["Juste après <caption> et avant <thead>/<tbody>", "À l'intérieur de chaque <tr>", "Après <tfoot>", "À l'extérieur de <table>"]),
+            S("Quel attribut sur <colgroup> ou <col> permet d'appliquer un style à plusieurs colonnes consécutives sans répéter l'élément ?",
+              ["span", "colspan", "count", "repeat"]),
+            Sx("Quelle propriété CSS est couramment combinée avec <col> pour, par exemple, donner une largeur fixe à une colonne entière ?",
+               ["width", "colspan", "scope", "table-layout uniquement"], 0),
+            T("On peut styliser certaines propriétés visuelles comme la largeur ou la couleur de fond via <col>, mais pas toutes les propriétés CSS (comme les bordures complexes).", True),
+            T("L'élément <col> peut contenir du texte affiché dans chaque cellule de la colonne.", False),
+            M("Quelles affirmations sur <colgroup>/<col> sont correctes ?",
+              ["Ils permettent de cibler une colonne entière sans répéter de classe sur chaque cellule", "Le nombre de col doit correspondre au nombre de colonnes visées"],
+              ["Ils remplacent obligatoirement <thead>", "Ils contiennent le texte des cellules"]),
+            M("Quels éléments structurent les colonnes ou groupes de colonnes d'un tableau ?",
+              ["<colgroup>", "<col>"],
+              ["<rowgroup>", "<cellgroup>"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Préchargement et indices de ressources : link rel preload, prefetch",
+        "Optimiser le chargement des ressources critiques d'une page.",
+        [
+            S("Quelle valeur de l'attribut rel sur <link> indique au navigateur de télécharger une ressource en priorité car elle sera bientôt utilisée ?",
+              ["preload", "prefetch", "preconnect", "dns-prefetch"]),
+            S("Quelle valeur de rel suggère au navigateur de précharger une ressource probablement nécessaire pour une navigation future, avec une priorité plus basse ?",
+              ["prefetch", "preload", "stylesheet", "icon"]),
+            S("Quelle valeur de rel établit une connexion anticipée (DNS, TCP, TLS) à un domaine externe sans télécharger de ressource précise ?",
+              ["preconnect", "preload", "prefetch", "alternate"]),
+            Sx("Quel attribut est nécessaire avec rel='preload' pour indiquer le type de ressource chargée (script, style, police, image) ?",
+               ["as", "type uniquement", "kind", "category"], 0),
+            T("L'utilisation excessive de preload sur de nombreuses ressources peut nuire à la performance en consommant la bande passante disponible trop tôt.", True),
+            T("rel='preload' garantit que la ressource sera exécutée immédiatement après son téléchargement.", False),
+            M("Quelles valeurs de rel sont liées à l'optimisation du chargement des ressources ?",
+              ["preload", "prefetch", "preconnect"],
+              ["nofollow", "license"]),
+            M("Quelles affirmations sur le préchargement de ressources sont correctes ?",
+              ["Il vise à réduire le temps perçu de chargement des ressources critiques", "Il doit être utilisé avec discernement, pas systématiquement"],
+              ["Il remplace totalement la mise en cache HTTP", "Il est obligatoire pour qu'une page HTML soit valide"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Encodage des attributs et des URL dans le HTML",
+        "Échapper correctement les caractères spéciaux dans les attributs HTML.",
+        [
+            S("Quelle entité doit être utilisée pour représenter un guillemet double à l'intérieur d'un attribut délimité par des guillemets doubles ?",
+              ["&quot;", "&apos;", "&dquote;", "&amp;quot"]),
+            S("Pourquoi est-il risqué d'insérer directement une donnée utilisateur non échappée dans un attribut HTML ?",
+              ["Cela peut casser la structure de l'attribut ou ouvrir la voie à des failles comme l'injection de code (XSS)", "Cela ralentit uniquement le CSS", "Cela change la langue de la page", "Cela est impossible techniquement"]),
+            S("Dans une URL utilisée comme valeur d'attribut href, quel caractère doit souvent être encodé car il sert de séparateur de paramètres ?",
+              ["L'esperluette & doit être encodée en &amp; dans le HTML", "Le point .", "Le tiret -", "La lettre majuscule"]),
+            Sx("Quelle méthode JavaScript permet d'encoder un composant d'URL pour qu'il soit sûr dans une chaîne de requête ?",
+               ["encodeURIComponent()", "escapeURL()", "sanitizeURI()", "htmlEncode()"], 0),
+            T("Un attribut href contenant un caractère & non échappé en &amp; dans le code source HTML peut, dans certains contextes de parsing strict, provoquer un comportement incorrect.", True),
+            T("Les guillemets autour des valeurs d'attribut sont strictement interdits en HTML5.", False),
+            M("Quelles pratiques permettent d'éviter des problèmes d'encodage dans les attributs HTML ?",
+              ["Échapper les caractères réservés comme & en &amp;", "Utiliser des guillemets cohérents autour des valeurs d'attribut"],
+              ["Ne jamais utiliser d'attribut href", "Écrire les URL uniquement en majuscules"]),
+            M("Quelles affirmations sur les attributs HTML sont correctes ?",
+              ["Leur valeur peut être délimitée par des guillemets simples ou doubles", "Une valeur sans espace peut parfois s'écrire sans guillemets, mais ce n'est pas recommandé"],
+              ["Ils ne peuvent jamais contenir de caractères Unicode", "Ils sont interprétés comme du CSS automatiquement"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Responsive images : densité d'écran avec x descriptor",
+        "Adapter les images aux écrans à forte densité de pixels (Retina).",
+        [
+            S("Dans srcset, quel descripteur indique un multiplicateur de densité de pixels, par exemple 2x pour les écrans Retina ?",
+              ["x", "w", "dpi", "scale"]),
+            S("Pourquoi un écran à haute densité de pixels (comme certains écrans Retina) nécessite-t-il potentiellement une image plus grande que sa taille d'affichage CSS ?",
+              ["Pour conserver une image nette malgré le plus grand nombre de pixels physiques par pixel CSS", "Parce que les écrans Retina n'affichent pas les images normales", "Parce que le CSS l'exige par défaut", "Parce que cela réduit la taille du fichier"]),
+            S("Peut-on combiner le descripteur de densité (x) avec le descripteur de largeur (w) dans le même attribut srcset ?",
+              ["Non, ils s'utilisent de façon distincte, pas combinés dans la même liste", "Oui, toujours ensemble obligatoirement", "Seulement sur mobile", "Seulement avec picture"]),
+            Sx("Quel est l'intérêt de fournir une version 2x d'une image dans srcset plutôt que de toujours charger la version haute résolution ?",
+               ["Économiser de la bande passante sur les écrans standards qui n'en ont pas besoin", "Améliorer le référencement uniquement", "Accélérer le CSS", "Réduire le nombre de balises HTML"], 0),
+            T("Le descripteur x dans srcset est particulièrement utile lorsque l'image est affichée à une taille fixe en CSS, indépendamment de la largeur du viewport.", True),
+            T("Le descripteur w dans srcset indique systématiquement un multiplicateur de densité d'écran.", False),
+            M("Quelles affirmations sur les descripteurs srcset sont correctes ?",
+              ["w décrit une largeur intrinsèque en pixels", "x décrit un ratio de densité de pixels"],
+              ["Les deux descripteurs sont rigoureusement identiques", "srcset est incompatible avec l'attribut sizes"]),
+            M("Quels facteurs influencent le choix de l'image par le navigateur avec srcset/sizes ?",
+              ["La largeur du viewport", "La densité de pixels de l'écran"],
+              ["La couleur de fond de la page", "Le nombre total de liens de la page"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Les rôles ARIA de repère (landmark roles)",
+        "Faciliter la navigation par repères pour les utilisateurs de lecteurs d'écran.",
+        [
+            S("Quel rôle ARIA implicite possède l'élément <main> pour les technologies d'assistance ?",
+              ["main", "content", "primary", "body"]),
+            S("Quel rôle ARIA implicite possède l'élément <nav> ?",
+              ["navigation", "menu", "links", "nav-role"]),
+            S("Quel rôle ARIA implicite possède l'élément <aside> ?",
+              ["complementary", "sidebar", "related", "secondary"]),
+            Sx("Pourquoi les rôles de repère (landmark roles) comme banner, main, navigation sont-ils utiles pour les lecteurs d'écran ?",
+               ["Ils permettent à l'utilisateur de naviguer rapidement entre les grandes zones de la page sans tout parcourir linéairement", "Ils changent la couleur des zones correspondantes", "Ils sont uniquement décoratifs", "Ils remplacent le besoin de balises HTML sémantiques"], 0),
+            T("Utiliser les balises sémantiques HTML5 natives (header, nav, main, aside, footer) fournit automatiquement les rôles ARIA de repère correspondants, sans attribut role explicite nécessaire.", True),
+            T("Le rôle ARIA 'banner' correspond généralement à l'élément <footer> d'une page.", False),
+            M("Quels éléments HTML5 natifs possèdent un rôle de repère ARIA implicite ?",
+              ["<header> (banner, en contexte de page)", "<nav> (navigation)", "<main> (main)"],
+              ["<span>", "<em>"]),
+            M("Quelles affirmations sur les rôles de repère ARIA sont correctes ?",
+              ["Ils aident à structurer la navigation pour les technologies d'assistance", "Plusieurs repères de même type peuvent être différenciés avec aria-label"],
+              ["Ils sont visibles visuellement par défaut dans le navigateur", "Ils sont incompatibles avec le HTML5 sémantique natif"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Formulaires : readonly versus disabled",
+        "Distinguer deux états de champ proches mais aux comportements différents.",
+        [
+            S("Quel attribut empêche la modification d'un champ tout en l'incluant dans les données envoyées lors de la soumission ?",
+              ["readonly", "disabled", "locked", "frozen"]),
+            S("Quel attribut empêche à la fois la modification et l'inclusion d'un champ dans les données envoyées lors de la soumission ?",
+              ["disabled", "readonly", "inactive", "blocked"]),
+            S("Un champ avec l'attribut disabled peut-il recevoir le focus au clavier par défaut ?",
+              ["Non, un champ disabled est exclu du focus et de la tabulation", "Oui, exactement comme un champ normal", "Seulement sur mobile", "Seulement si required est aussi présent"]),
+            Sx("Dans quel cas utiliserait-on plutôt readonly que disabled pour un champ affichant une valeur calculée non modifiable ?",
+               ["Quand on veut que la valeur soit quand même soumise avec le formulaire", "Quand on veut totalement masquer le champ", "Quand on veut empêcher toute soumission du formulaire", "Il n'y a aucune différence pratique"], 0),
+            T("Un champ avec readonly reste focusable et son contenu peut être sélectionné ou copié par l'utilisateur.", True),
+            T("disabled et readonly ont exactement le même effet sur la soumission des données du formulaire.", False),
+            M("Quelles affirmations sur l'attribut disabled sont correctes ?",
+              ["Il peut s'appliquer à un champ individuel ou à tout un fieldset", "Un champ disabled n'est pas envoyé lors de la soumission du formulaire"],
+              ["Il rend le champ visible uniquement en lecture stylisée sans bloquer la saisie", "Il est synonyme strict de required"]),
+            M("Quelles affirmations sur readonly sont correctes ?",
+              ["La valeur du champ readonly est incluse dans les données soumises", "L'utilisateur ne peut pas modifier la valeur affichée"],
+              ["readonly empêche le focus clavier", "readonly retire le champ du DOM"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Les en-têtes et pieds de page multiples dans une page HTML5",
+        "Utiliser header et footer à plusieurs niveaux d'une page.",
+        [
+            S("Un élément <header> peut-il être utilisé à l'intérieur d'un <article> en plus de l'en-tête général de la page ?",
+              ["Oui, un header peut être local à une section ou un article", "Non, un seul header est autorisé par page", "Seulement dans le <body> direct", "Seulement combiné avec nav"]),
+            S("Que contient généralement le <header> d'un <article> de blog, par exemple ?",
+              ["Le titre de l'article, sa date de publication ou son auteur", "Uniquement le logo du site", "La barre de recherche globale du site", "Le menu de navigation principal uniquement"]),
+            S("Un élément <footer> à l'intérieur d'un <article> peut typiquement contenir quoi ?",
+              ["Des informations sur l'auteur, des liens vers des articles similaires, ou la date", "Le doctype du document", "Le titre principal du site", "La balise meta viewport"]),
+            Sx("Quelle est la règle générale concernant le nombre de <header> et <footer> autorisés sur une page HTML5 ?",
+               ["Plusieurs sont autorisés, à condition de ne pas être imbriqués l'un dans l'autre ou dans un autre header/footer", "Un seul header et un seul footer par page au total", "Aucune limite, même imbriqués entre eux", "Header et footer sont interdits dans article"], 0),
+            T("Un <header> ne peut pas être un descendant d'un autre <header> ou d'un <footer>.", True),
+            T("Le <footer> d'une page doit obligatoirement contenir un élément <nav>.", False),
+            M("Quelles affirmations sur header/footer multiples sont correctes ?",
+              ["Ils peuvent être utilisés localement dans article ou section", "Leur contenu dépend du contexte (page entière ou section locale)"],
+              ["Ils doivent toujours être identiques sur toute la page", "Ils remplacent obligatoirement le <head> du document"]),
+            M("Quels contenus sont typiquement appropriés dans un <footer> de page (et non d'article) ?",
+              ["Les mentions légales", "Les liens vers les réseaux sociaux", "Le copyright du site"],
+              ["Le contenu principal de l'article", "Le formulaire de connexion principal"]),
+        ],
+    ))
+
+    return quizzes

@@ -43,7 +43,7 @@ export function Leaderboard({
             className={cn(
               "flex items-center gap-3 rounded-xl border border-bg-border bg-bg-soft/40 px-4 transition",
               compact ? "py-2" : "py-3",
-              isMe && "ring-2 ring-accent-violet/60 border-accent-violet/60",
+              isMe && "ring-2 ring-accent-primary/60 border-accent-primary/60",
               idx === 0 && "bg-amber-400/5 border-amber-400/30",
             )}
           >

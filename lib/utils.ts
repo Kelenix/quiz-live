@@ -44,7 +44,7 @@ export function statusColor(status: QuizStatus): string {
     case "live":
       return "bg-emerald-500/15 text-emerald-300 border-emerald-500/40 animate-pulse-soft";
     case "finished":
-      return "bg-indigo-500/15 text-indigo-300 border-indigo-500/40";
+      return "bg-sky-500/15 text-sky-300 border-sky-500/40";
   }
 }
 

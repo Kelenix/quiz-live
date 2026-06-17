@@ -6,7 +6,7 @@ import { Loader2, Plus, Save } from "lucide-react";
 import { QuestionEditor } from "./QuestionEditor";
 import type { QuizCategory, QuizDraft, QuestionDraft } from "@/types";
 
-const CATEGORIES: QuizCategory[] = ["HTML", "CSS", "JS", "C", "SQL", "IA", "Autre"];
+const CATEGORIES: QuizCategory[] = ["HTML", "CSS", "JS", "Java", "Python", "SQL"];
 
 function emptyQuestion(order: number): QuestionDraft {
   return {
@@ -32,7 +32,7 @@ export function QuizForm({
   const [draft, setDraft] = useState<QuizDraft>(
     initial ?? {
       title: "",
-      category: "Autre",
+      category: "HTML",
       description: "",
       questions: [emptyQuestion(0)],
     },

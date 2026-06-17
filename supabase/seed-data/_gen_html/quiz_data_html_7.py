@@ -1,0 +1,236 @@
+from helpers_html import S, Sx, M, T, quiz
+
+def get_quizzes():
+    quizzes = []
+
+    quizzes.append(quiz(
+        "L'élément textarea et la saisie multi-lignes",
+        "Configurer un champ de texte libre sur plusieurs lignes.",
+        [
+            S("Quel élément permet de saisir du texte libre sur plusieurs lignes dans un formulaire ?",
+              ["<textarea>", "<input type='text'>", "<multitext>", "<p contenteditable>"]),
+            S("Quels attributs de <textarea> définissent ses dimensions visibles en colonnes et en lignes ?",
+              ["cols et rows", "width et height", "size et length", "x et y"]),
+            S("Comment définit-on le texte par défaut affiché dans un <textarea>, contrairement à <input> qui utilise value ?",
+              ["En l'écrivant comme contenu texte entre les balises ouvrante et fermante", "Avec l'attribut value", "Avec l'attribut default", "Avec l'attribut placeholder uniquement"]),
+            Sx("Quel attribut de <textarea> contrôle si l'utilisateur peut redimensionner manuellement la zone de texte (comportement souvent géré aussi en CSS) ?",
+               ["La propriété CSS resize, combinée au rendu natif du navigateur", "L'attribut resize en HTML", "L'attribut scalable", "L'attribut flexible"], 0),
+            T("Le <textarea> accepte un attribut placeholder, tout comme les champs input texte.", True),
+            T("Le <textarea> doit obligatoirement utiliser l'attribut value pour définir son contenu initial.", False),
+            M("Quels attributs sont valides sur l'élément <textarea> ?",
+              ["maxlength", "required", "placeholder"],
+              ["accept", "step"]),
+            M("Quelles affirmations sur <textarea> sont correctes ?",
+              ["Il peut être associé à un <label> via l'attribut for/id", "Il peut être limité en nombre de caractères avec maxlength"],
+              ["Il ne peut jamais être désactivé avec disabled", "Il est obligatoirement en lecture seule par défaut"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Le head : ordre et bonnes pratiques de chargement",
+        "Organiser efficacement les ressources déclarées dans l'en-tête du document.",
+        [
+            S("Quel type de ressource externe est généralement chargé via un élément <link rel='stylesheet'> dans le head ?",
+              ["Une feuille de style CSS", "Un script JavaScript", "Une police uniquement", "Une image de fond"]),
+            S("Pourquoi recommande-t-on souvent de déclarer la balise meta charset tout au début de <head> ?",
+              ["Pour que le navigateur interprète correctement l'encodage avant de traiter d'autres balises contenant du texte", "Pour accélérer le CSS", "Parce que c'est imposé par JavaScript", "Pour activer le favicon automatiquement"]),
+            S("Quel élément du head permet de définir une URL de base pour résoudre tous les liens relatifs de la page ?",
+              ["<base href='...'>", "<root>", "<origin>", "<default-url>"]),
+            Sx("Quel est l'impact de charger un CSS volumineux et bloquant tout en haut du head avant le rendu de la page ?",
+               ["Cela retarde l'affichage du contenu jusqu'à ce que le CSS soit téléchargé et appliqué (render-blocking)", "Cela accélère toujours l'affichage", "Cela empêche le HTML de se charger", "Cela n'a aucun impact mesurable"], 0),
+            T("On peut inclure plusieurs feuilles de style CSS via plusieurs balises <link> dans le head.", True),
+            T("L'élément <base> ne peut être utilisé qu'une seule fois et doit normalement être déclaré tôt dans le head.", True),
+            M("Quels éléments sont couramment placés dans <head> ?",
+              ["<title>", "<meta>", "<link>"],
+              ["<footer>", "<article>"]),
+            M("Quelles affirmations sur l'ordre de chargement dans head sont correctes ?",
+              ["Le charset doit être déclaré très tôt pour un parsing correct du texte", "Des scripts non essentiels peuvent être différés pour ne pas bloquer le rendu"],
+              ["Le head ne peut contenir aucun élément <script>", "L'ordre des balises dans head n'a jamais aucune importance"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Mise en pratique : formulaire de contact complet",
+        "Assembler les bons éléments pour un formulaire de contact accessible et validé.",
+        [
+            S("Quel élément doit englober l'ensemble des champs d'un formulaire de contact ?",
+              ["<form>", "<contact>", "<fieldset> uniquement", "<section> uniquement"]),
+            S("Quel attribut permettrait de valider automatiquement qu'un champ email contient bien un format d'adresse correct ?",
+              ['type="email" sur le champ input', 'pattern obligatoire uniquement', 'required uniquement', 'maxlength uniquement'] ),
+            S("Quel élément devrait accompagner chaque champ du formulaire pour décrire sa fonction de façon accessible ?",
+              ["<label>", "<span> stylisé en gras", "<div> avec une classe", "<title> de la page"]),
+            Sx("Quel élément permettrait de regrouper logiquement les champs 'nom' et 'prénom' sous un même intitulé visuel et sémantique ?",
+               ["<fieldset> avec une <legend>", "<section> sans titre", "<table>", "<nav>"], 0),
+            T("Un bouton de soumission peut être un <button type='submit'> ou un <input type='submit'>, les deux sont valides.", True),
+            T("Un formulaire de contact valide doit obligatoirement inclure un <iframe>.", False),
+            M("Quels éléments composent typiquement un formulaire de contact bien structuré ?",
+              ["<form>", "<label>", "<input>", "<button type='submit'>"],
+              ["<video>", "<canvas>"]),
+            M("Quelles bonnes pratiques d'accessibilité s'appliquent à un formulaire de contact ?",
+              ["Associer chaque champ à un label explicite", "Indiquer clairement les champs obligatoires"],
+              ["Utiliser uniquement des placeholders sans labels", "Masquer les messages d'erreur aux lecteurs d'écran"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Span et div : conteneurs génériques",
+        "Utiliser les conteneurs neutres pour le style ou le script quand aucune sémantique ne convient.",
+        [
+            S("Quel élément générique de type bloc sert à regrouper du contenu sans signification sémantique propre ?",
+              ["<div>", "<span>", "<section>", "<group>"]),
+            S("Quel élément générique de type en ligne sert à cibler une portion de texte sans signification sémantique propre ?",
+              ["<span>", "<div>", "<p>", "<mark>"]),
+            S("Dans quel cas privilégier <div> ou <span> plutôt qu'un élément sémantique comme <section> ou <strong> ?",
+              ["Quand le regroupement n'a de sens que pour le style CSS ou un script, sans signification de contenu", "Toujours, par simplicité systématique", "Jamais, ils sont obsolètes", "Uniquement dans les formulaires"]),
+            Sx("Quel est le principal risque d'un usage excessif de <div> partout (le 'divitis') dans un document HTML ?",
+               ["Cela nuit à la lisibilité du code et à la sémantique du document pour les outils d'accessibilité", "Cela ralentit uniquement le CSS", "Cela bloque le JavaScript", "Cela empêche le favicon de s'afficher"], 0),
+            T("<div> et <span> n'ont aucune signification sémantique intrinsèque par eux-mêmes, contrairement à <article> ou <strong>.", True),
+            T("<span> est un élément de type bloc comme <div>.", False),
+            M("Quelles affirmations sur <div> et <span> sont correctes ?",
+              ["Ils sont très utiles comme conteneurs neutres pour le CSS ou JavaScript", "Ils peuvent recevoir des attributs class, id ou data-*"],
+              ["Ils sont interdits par les spécifications HTML5", "Ils transmettent automatiquement un sens sémantique fort"]),
+            M("Quels éléments seraient préférables à <div> quand une signification sémantique existe ?",
+              ["<article> pour un contenu autonome", "<nav> pour la navigation"],
+              ["<div class='nav'> toujours suffisant", "<span class='article'> toujours suffisant"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Tables : tri et lecture pour les lecteurs d'écran complexes",
+        "Approfondir l'accessibilité des tableaux à en-têtes multiples.",
+        [
+            S("Pour un tableau avec des en-têtes de ligne ET de colonne, quel attribut sur <th> aide à préciser leur portée respective ?",
+              ["scope avec les valeurs 'col' ou 'row'", "colspan uniquement", "headers uniquement sur th", "type='header'"]),
+            S("Dans un tableau complexe où une cellule dépend de plusieurs en-têtes non adjacents, quel attribut sur <td> référence ces en-têtes par leurs identifiants ?",
+              ["headers", "scope", "for", "ref"]),
+            S("Quel élément regroupe les lignes de données principales d'un tableau, distinctes de l'en-tête et du pied ?",
+              ["<tbody>", "<thead>", "<tfoot>", "<tdata>"]),
+            Sx("Quel élément regroupe typiquement les lignes de total ou de synthèse en bas d'un tableau ?",
+               ["<tfoot>", "<tbody>", "<thead>", "<summary>"], 0),
+            T("Un tableau peut comporter un seul <thead>, un seul <tfoot>, mais potentiellement plusieurs <tbody>.", True),
+            T("Le <tfoot> doit obligatoirement être placé après tous les <tbody> dans le code source HTML, sans exception.", False),
+            M("Quels éléments structurent les grandes sections logiques d'un tableau HTML ?",
+              ["<thead>", "<tbody>", "<tfoot>"],
+              ["<tcolumn>", "<trow>"]),
+            M("Quelles affirmations sur scope et headers sont correctes ?",
+              ["scope='col' indique que l'en-tête s'applique à toute une colonne", "headers permet de lier une cellule à plusieurs identifiants d'en-tête"],
+              ["scope remplace obligatoirement colspan", "headers est requis sur tous les tableaux simples sans exception"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Polices web et liens vers ressources externes",
+        "Charger des polices personnalisées et d'autres ressources via link.",
+        [
+            S("Quel élément permet de référencer une feuille de style externe ou une police web depuis le head ?",
+              ["<link>", "<style>", "<font>", "<resource>"]),
+            S("Quel attribut de <link> précise la relation entre le document courant et la ressource liée ?",
+              ["rel", "type", "href uniquement", "name"]),
+            S("Quelle règle CSS, souvent placée dans une feuille de style liée, permet de déclarer une police personnalisée à charger ?",
+              ["@font-face", "@import-font", "font-load", "@typeface"]),
+            Sx("Pourquoi ajouter crossorigin='anonymous' sur un <link rel='preload'> pointant vers un fichier de police est souvent nécessaire ?",
+               ["Parce que les requêtes de polices sont soumises au CORS même si le fichier vient du même domaine, selon la spécification", "Pour activer automatiquement le rendu de la police", "Pour réduire le poids du fichier de police", "Parce que cela change l'encodage de caractères"], 0),
+            T("Plusieurs balises <link rel='stylesheet'> peuvent être combinées dans le head pour charger plusieurs feuilles de style.", True),
+            T("L'élément <link> nécessite toujours une balise fermante explicite </link> en HTML5.", False),
+            M("Quelles valeurs de rel sont couramment utilisées sur <link> ?",
+              ["stylesheet", "icon", "preload"],
+              ["script", "video"]),
+            M("Quelles affirmations sur le chargement de polices web sont correctes ?",
+              ["Elles peuvent être déclarées via une règle @font-face dans le CSS", "Le préchargement peut réduire le temps avant l'affichage du texte stylé"],
+              ["Elles doivent obligatoirement être au format .docx", "Elles ne peuvent être chargées que depuis le même domaine"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Validation et messages d'erreur personnalisés en HTML5",
+        "Personnaliser les messages natifs de validation des formulaires.",
+        [
+            S("Quel attribut permet de fournir un message d'erreur personnalisé affiché par le navigateur quand un champ pattern n'est pas respecté ?",
+              ["title (utilisé comme message d'aide pour pattern)", "errormessage", "validationtext", "hint"]),
+            S("Quelle méthode JavaScript permet de définir manuellement un message de validation personnalisé sur un champ ?",
+              ["setCustomValidity()", "setErrorMessage()", "validate()", "showError()"]),
+            S("Quelle propriété JavaScript d'un champ de formulaire indique s'il respecte actuellement ses contraintes de validation ?",
+              ["validity.valid", "isValid", "checkValid", "valid"]),
+            Sx("Quel est l'avantage de combiner validation HTML5 native et JavaScript personnalisé plutôt que JavaScript seul ?",
+               ["Profiter de la validation native rapide tout en personnalisant les messages ou règles complexes", "La validation HTML5 seule suffit toujours sans exception", "JavaScript seul est interdit pour les formulaires", "Cela élimine le besoin de validation côté serveur dans tous les cas"], 0),
+            T("Même avec une validation HTML5 et JavaScript robuste côté client, une validation côté serveur reste recommandée pour la sécurité.", True),
+            T("setCustomValidity('') réinitialise un champ pour qu'il soit à nouveau considéré valide si la chaîne est vide.", True),
+            M("Quels attributs ou propriétés sont liés à la validation HTML5 des formulaires ?",
+              ["pattern", "validity", "checkValidity()"],
+              ["colspan", "muted"]),
+            M("Quelles affirmations sur la validation native du navigateur sont correctes ?",
+              ["Elle peut être désactivée avec l'attribut novalidate sur le formulaire", "Elle affiche des messages par défaut qui varient selon le navigateur et la langue"],
+              ["Elle remplace obligatoirement tout besoin de CSS pour signaler une erreur", "Elle fonctionne uniquement avec Internet Explorer"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Les balises obsolètes de présentation et leurs équivalents modernes",
+        "Identifier les remplacements recommandés pour des balises de présentation anciennes.",
+        [
+            S("Par quoi remplace-t-on aujourd'hui l'ancien attribut align utilisé directement sur des balises HTML ?",
+              ["Des propriétés CSS comme text-align ou les techniques de mise en page modernes", "Un nouvel attribut HTML5 nommé position", "Rien, il reste recommandé", "L'attribut valign uniquement"]),
+            S("Quel ancien élément permettait de définir une police, une taille et une couleur de texte directement en HTML, aujourd'hui déconseillé ?",
+              ["<font>", "<style-text>", "<typeface>", "<textstyle>"]),
+            S("Quel ancien attribut sur <table> définissait l'épaisseur de la bordure, aujourd'hui remplacé par CSS (border) ?",
+              ["border (attribut HTML historique sur table)", "thickness", "frame-width", "outline"]),
+            Sx("Pourquoi la séparation entre structure HTML et présentation CSS est-elle considérée comme une bonne pratique majeure ?",
+               ["Elle facilite la maintenance, la cohérence visuelle et l'adaptabilité (par exemple le responsive design)", "Elle est obligatoire pour que le JavaScript fonctionne", "Elle empêche les moteurs de recherche d'indexer le site", "Elle ralentit systématiquement le rendu"], 0),
+            T("Les attributs de présentation comme bgcolor ou align restent reconnus par les navigateurs pour compatibilité, mais sont déconseillés en faveur du CSS.", True),
+            T("Le HTML5 a interdit totalement le rendu de toute page utilisant encore des attributs de présentation obsolètes.", False),
+            M("Quels anciens éléments ou attributs de présentation sont aujourd'hui déconseillés en faveur du CSS ?",
+              ["<font>", "bgcolor", "align (en attribut direct)"],
+              ["<section>", "class"]),
+            M("Quelles raisons justifient l'abandon progressif des balises de présentation ?",
+              ["Une meilleure séparation des responsabilités entre structure et style", "Une maintenance facilitée à grande échelle"],
+              ["Une interdiction légale internationale", "Une incompatibilité totale avec les navigateurs modernes"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Le bouton de réinitialisation et la gestion de l'état d'un formulaire",
+        "Comprendre l'effet du bouton reset et la gestion d'état des champs.",
+        [
+            S("Quel type de bouton restaure tous les champs d'un formulaire à leurs valeurs initiales définies dans le HTML ?",
+              ['type="reset"', 'type="submit"', 'type="clear"', 'type="default"'] ),
+            S("Après avoir cliqué sur un bouton reset, que deviennent les valeurs saisies dynamiquement par l'utilisateur ?",
+              ["Elles sont remplacées par les valeurs par défaut définies dans le HTML (attribut value initial)", "Elles sont envoyées au serveur avant suppression", "Elles sont sauvegardées automatiquement", "Rien ne change visuellement"]),
+            S("Pourquoi le bouton reset est-il aujourd'hui utilisé avec prudence dans les interfaces modernes ?",
+              ["Il peut effacer accidentellement des données saisies par l'utilisateur sans confirmation", "Il est interdit par le HTML5", "Il provoque une erreur de validation systématique", "Il empêche la soumission du formulaire définitivement"]),
+            Sx("Quel évènement JavaScript peut être utilisé pour intercepter et personnaliser le comportement d'un bouton reset, par exemple demander confirmation ?",
+               ["L'évènement reset sur le formulaire", "L'évènement submit uniquement", "L'évènement load", "L'évènement focus"], 0),
+            T("Le bouton reset ne déclenche pas l'envoi de données au serveur, contrairement au bouton submit.", True),
+            T("Un formulaire HTML doit obligatoirement contenir un bouton reset pour être valide.", False),
+            M("Quelles affirmations sur le bouton reset sont correctes ?",
+              ["Il restaure les champs à leur état initial du HTML, pas à un état vide systématiquement", "Son usage doit être pensé avec prudence pour l'expérience utilisateur"],
+              ["Il envoie les données du formulaire au serveur", "Il supprime définitivement le formulaire du DOM"]),
+            M("Quels types de bouton existent nativement pour un <input> ou <button> de formulaire ?",
+              ["submit", "reset", "button"],
+              ["cancel", "delete"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "L'attribut required combiné à d'autres types de champs",
+        "Appliquer la contrainte required sur des champs autres que le texte simple.",
+        [
+            S("L'attribut required peut-il être appliqué à une case à cocher (checkbox) ?",
+              ["Oui, cela oblige à cocher la case avant soumission", "Non, required ne fonctionne que sur le texte", "Seulement sur les boutons radio", "Seulement sur les selects"]),
+            S("Pour un groupe de boutons radio, où doit-on placer l'attribut required pour qu'au moins une option du groupe soit obligatoire ?",
+              ["Sur chacun des boutons radio du groupe (un seul suffit techniquement à activer la contrainte du groupe)", "Uniquement sur le premier", "Sur le <form> uniquement", "Sur le <fieldset> uniquement"]),
+            S("L'attribut required appliqué à un <select> empêche-t-il la soumission si aucune option n'est sélectionnée ?",
+              ["Oui, si aucune option valide n'est choisie (souvent une option vide par défaut)", "Non, select ignore toujours required", "Seulement avec multiple activé", "Seulement si optgroup est utilisé"]),
+            Sx("Que se passe-t-il si l'on combine required avec disabled sur un même champ ?",
+               ["Le champ désactivé n'est pas pris en compte dans la validation ni soumis, la contrainte required est alors sans effet pratique", "Le formulaire ne peut jamais être soumis", "Une erreur HTML est levée au chargement", "disabled est ignoré si required est présent"], 0),
+            T("Un champ avec required vide empêche par défaut la soumission native du formulaire et affiche un message d'erreur du navigateur.", True),
+            T("L'attribut required n'a aucun effet sur les champs de type checkbox ou radio.", False),
+            M("Sur quels types de champs l'attribut required peut-il s'appliquer utilement ?",
+              ["input type text", "input type checkbox", "select"],
+              ["input type hidden", "input type submit"]),
+            M("Quelles affirmations sur required sont correctes ?",
+              ["Il déclenche une validation native avant la soumission", "Il peut être combiné avec pattern pour des règles plus précises"],
+              ["Il garantit que la valeur saisie est sémantiquement correcte sur le fond", "Il remplace obligatoirement la validation serveur"]),
+        ],
+    ))
+
+    return quizzes

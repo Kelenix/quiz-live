@@ -14,7 +14,7 @@ create extension if not exists "pgcrypto";
 create table if not exists public.quizzes (
   id                      uuid primary key default gen_random_uuid(),
   title                   text not null,
-  category                text check (category in ('HTML','CSS','JS','C','SQL','IA','Autre')) default 'Autre',
+  category                text check (category in ('HTML','CSS','JS','Java','Python','SQL')) default 'HTML',
   description             text,
   join_code               text unique not null,
   status                  text not null default 'draft' check (status in ('draft','waiting','live','finished')),
@@ -68,6 +68,41 @@ create table if not exists public.responses (
 
 create index if not exists responses_question_idx
   on public.responses(question_id);
+
+-- ---------------------------------------------------------------------
+-- Migration : catégories autorisées = HTML, CSS, JS, Java, Python, SQL
+-- Idempotent : à rejouer même si la table existe déjà avec l'ancienne
+-- contrainte (HTML/CSS/JS/C/SQL/IA/Autre). C'est ce qui bloquait la
+-- création de quiz : un insert avec une catégorie hors de l'ancienne
+-- liste violait la contrainte CHECK et faisait échouer toute la requête.
+-- ---------------------------------------------------------------------
+
+update public.quizzes
+  set category = 'HTML'
+  where category is null or category not in ('HTML','CSS','JS','Java','Python','SQL');
+
+do $$
+declare
+  conname text;
+begin
+  for conname in
+    select c.conname
+    from pg_constraint c
+    join pg_class t on t.oid = c.conrelid
+    where t.relname = 'quizzes'
+      and c.contype = 'c'
+      and pg_get_constraintdef(c.oid) ilike '%category%'
+  loop
+    execute format('alter table public.quizzes drop constraint %I', conname);
+  end loop;
+end $$;
+
+alter table public.quizzes
+  add constraint quizzes_category_check
+  check (category in ('HTML','CSS','JS','Java','Python','SQL'));
+
+alter table public.quizzes
+  alter column category set default 'HTML';
 
 -- ---------------------------------------------------------------------
 -- Realtime publication (idempotent)

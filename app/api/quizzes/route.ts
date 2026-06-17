@@ -5,6 +5,8 @@ import type { QuizDraft } from "@/types";
 
 export const dynamic = "force-dynamic";
 
+const ALLOWED_CATEGORIES = ["HTML", "CSS", "JS", "Java", "Python", "SQL"];
+
 async function uniqueJoinCode(admin: ReturnType<typeof createAdminClient>) {
   for (let i = 0; i < 8; i++) {
     const code = generateJoinCode();
@@ -25,6 +27,16 @@ export async function POST(req: Request) {
     if (!body?.title?.trim()) {
       return NextResponse.json({ error: "Titre requis" }, { status: 400 });
     }
+    if (!Array.isArray(body.questions) || body.questions.length === 0) {
+      return NextResponse.json(
+        { error: "Ajoute au moins une question." },
+        { status: 400 },
+      );
+    }
+    const category = ALLOWED_CATEGORIES.includes(body.category)
+      ? body.category
+      : "HTML";
+
     const admin = createAdminClient();
     const code = await uniqueJoinCode(admin);
 
@@ -32,7 +44,7 @@ export async function POST(req: Request) {
       .from("quizzes")
       .insert({
         title: body.title.trim(),
-        category: body.category,
+        category,
         description: body.description?.trim() || null,
         join_code: code,
         status: "draft",

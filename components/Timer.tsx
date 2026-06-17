@@ -49,7 +49,7 @@ export function Timer({
             "h-full rounded-full transition-all duration-1000 ease-linear",
             danger
               ? "bg-gradient-to-r from-red-500 to-orange-500"
-              : "bg-gradient-to-r from-accent-violet to-accent-blue",
+              : "bg-gradient-to-r from-accent-primary to-accent-secondary",
           )}
           style={{ width: `${pct}%` }}
         />

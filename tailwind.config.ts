@@ -10,15 +10,15 @@ const config: Config = {
     extend: {
       colors: {
         bg: {
-          DEFAULT: "#0f0f1a",
-          soft: "#16162b",
-          card: "#1b1b34",
-          border: "#2a2a48",
+          DEFAULT: "#121212",
+          soft: "#1a1a1a",
+          card: "#1f1f1f",
+          border: "#2e2e2e",
         },
         accent: {
-          violet: "#7c3aed",
-          blue: "#2563eb",
-          glow: "#a78bfa",
+          primary: "#3ecf8e",
+          secondary: "#1f9d63",
+          glow: "#7ffbc4",
         },
         ok: "#22c55e",
         warn: "#f59e0b",
@@ -28,7 +28,7 @@ const config: Config = {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 32px -8px rgba(124,58,237,.55)",
+        glow: "0 0 32px -8px rgba(62,207,142,.5)",
         card: "0 8px 24px -12px rgba(0,0,0,.6)",
       },
       keyframes: {

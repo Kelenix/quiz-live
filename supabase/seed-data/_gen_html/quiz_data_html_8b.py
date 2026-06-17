@@ -1,0 +1,236 @@
+from helpers_html import S, Sx, M, T, quiz
+
+def get_quizzes():
+    quizzes = []
+
+    quizzes.append(quiz(
+        "Le bouton popover et les attributs interactifs HTML5 récents",
+        "Découvrir l'API popover native pour des info-bulles et menus contextuels.",
+        [
+            S("Quel attribut HTML récent permet de désigner un élément comme contenu de popover natif, géré par le navigateur ?",
+              ["popover", "tooltip", "overlay", "floating"]),
+            S("Quel attribut sur un bouton permet de déclencher l'ouverture ou la fermeture d'un élément popover associé par son identifiant ?",
+              ["popovertarget", "aria-controls uniquement", "data-toggle", "for"]),
+            S("Quel avantage offre l'API popover native par rapport à une implémentation entièrement maison en JavaScript et CSS ?",
+              ["Une gestion native de la couche d'affichage, de la fermeture au clic extérieur et de l'accessibilité de base", "Elle élimine totalement le besoin de CSS", "Elle fonctionne uniquement sans JavaScript activé", "Elle remplace le besoin de boutons"]),
+            Sx("Quelle valeur de l'attribut popovertargetaction permet explicitement de fermer un popover déjà ouvert ?",
+               ["hide", "close", "off", "dismiss"], 0),
+            T("L'API popover vise à simplifier des cas d'usage comme les menus déroulants, tooltips ou notifications sans bibliothèque JavaScript lourde.", True),
+            T("L'attribut popover rend un élément automatiquement visible en permanence dès le chargement de la page.", False),
+            M("Quelles affirmations sur l'attribut popover sont correctes ?",
+              ["Il s'appuie sur une nouvelle fonctionnalité native du navigateur", "Il peut être combiné avec des boutons via popovertarget"],
+              ["Il remplace obligatoirement l'élément dialog dans tous les cas", "Il est apparu dès la première version de HTML"]),
+            M("Quels éléments interactifs HTML5 permettent de créer des interfaces sans bibliothèque JavaScript lourde ?",
+              ["<details>/<summary>", "<dialog>"],
+              ["<canvas> seul", "<iframe> seul"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "L'élément template et la génération dynamique de contenu",
+        "Préparer des fragments HTML réutilisables clonés via JavaScript.",
+        [
+            S("Quelle propriété d'un élément <template> donne accès à son contenu interne sous forme de DocumentFragment ?",
+              ["content", "innerHTML uniquement", "fragment", "body"]),
+            S("Pourquoi le contenu d'un <template> n'apparaît-il pas directement dans la page tant qu'il n'est pas manipulé par script ?",
+              ["Parce qu'il est analysé par le navigateur mais reste inerte, hors du DOM actif rendu", "Parce qu'il a un style display:none appliqué automatiquement par défaut visible dans le DOM", "Parce qu'il n'est jamais analysé par le navigateur", "Parce qu'il nécessite un attribut visible"]),
+            S("Quelle méthode JavaScript permet de dupliquer le contenu d'un template pour l'insérer ailleurs dans le DOM ?",
+              ["cloneNode(true) sur le contenu du template", "duplicate()", "copyTemplate()", "render()"]),
+            Sx("Quel cas d'usage typique justifie l'emploi d'un <template> plutôt qu'une simple chaîne de caractères HTML en JavaScript ?",
+               ["Définir une structure HTML répétable de façon déclarative, plus lisible et sûre qu'une concatenation de chaînes", "Charger une vidéo automatiquement", "Améliorer le référencement naturel", "Remplacer toutes les balises meta"], 0),
+            T("Les images et scripts contenus dans un template ne sont pas chargés ni exécutés tant que le contenu n'est pas inséré activement dans le document.", True),
+            T("Un <template> peut contenir n'importe quel balisage HTML valide, y compris des lignes de tableau ou des options de select.", True),
+            M("Quels usages concrets se prêtent bien à l'élément <template> dans une interface web ?",
+              ["Générer dynamiquement une liste de cartes produits identiques", "Préparer la structure d'une ligne de tableau à dupliquer"],
+              ["Définir le titre principal unique de la page", "Remplacer la balise meta viewport"]),
+            M("Quelles technologies sont souvent associées à l'usage de <template> ?",
+              ["JavaScript pour cloner et insérer le contenu", "Custom Elements pour structurer des composants réutilisables"],
+              ["CSS Grid uniquement", "Les balises meta SEO"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Les attributs de chargement différé : loading lazy",
+        "Différer le chargement des images et iframes hors écran.",
+        [
+            S("Quel attribut sur <img> ou <iframe> permet de différer le chargement de la ressource jusqu'à ce qu'elle approche du viewport visible ?",
+              ["loading='lazy'", "defer='true'", "async-load", "delay='true'"]),
+            S("Quelle valeur de loading indique un chargement immédiat, sans différer, comportement par défaut historique ?",
+              ["eager", "lazy", "auto-priority", "instant"]),
+            S("Pour quel type de ressource le chargement différé (lazy) est-il particulièrement utile en termes de performance perçue ?",
+              ["Les images situées loin en bas de la page, hors du premier écran visible", "Le favicon", "Le titre de la page", "La balise meta charset"]),
+            Sx("Quel est le risque principal d'appliquer loading='lazy' à une image critique affichée immédiatement en haut de page (above the fold) ?",
+               ["Cela peut retarder son affichage et nuire aux métriques de performance perçue comme le LCP", "Cela accélère toujours son affichage", "Cela empêche totalement son chargement", "Cela change sa résolution automatiquement"], 0),
+            T("L'attribut loading='lazy' est une fonctionnalité native du navigateur ne nécessitant pas de bibliothèque JavaScript pour les cas simples.", True),
+            T("loading='lazy' est obligatoire sur toutes les images d'une page pour qu'elle soit valide en HTML5.", False),
+            M("Quelles affirmations sur le chargement différé (lazy loading) natif sont correctes ?",
+              ["Il peut s'appliquer à <img> et <iframe>", "Il vise à réduire la consommation de bande passante initiale"],
+              ["Il s'applique uniquement aux fichiers vidéo", "Il remplace l'attribut alt"]),
+            M("Quels facteurs sont pertinents pour décider d'utiliser loading='lazy' sur une image ?",
+              ["Sa position hors du premier écran visible", "Son importance non critique pour le rendu initial"],
+              ["La couleur dominante de l'image", "Le nom du fichier image"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Attributs d'accessibilité avancés : aria-live et régions dynamiques",
+        "Annoncer les changements de contenu dynamique aux lecteurs d'écran.",
+        [
+            S("Quel attribut ARIA permet d'annoncer automatiquement aux lecteurs d'écran les changements de contenu d'une zone, comme une notification ?",
+              ["aria-live", "aria-update", "aria-notify", "aria-change"]),
+            S("Quelle valeur de aria-live indique que les mises à jour doivent être annoncées dès que possible, sans interrompre la tâche en cours ?",
+              ["polite", "assertive", "urgent", "now"]),
+            S("Quelle valeur de aria-live indique que la mise à jour est suffisamment importante pour interrompre immédiatement l'utilisateur ?",
+              ["assertive", "polite", "high", "force"]),
+            Sx("Quel rôle ARIA est souvent utilisé conjointement avec aria-live pour signaler un message d'erreur ou d'alerte important ?",
+               ["role='alert'", "role='status'", "role='dialog'", "role='log'"], 0),
+            T("Une région marquée aria-live='polite' permet à un lecteur d'écran de continuer la tâche en cours puis d'annoncer le changement au moment opportun.", True),
+            T("aria-live n'a aucun effet si le contenu de la région n'est jamais réellement modifié dynamiquement après le chargement initial.", True),
+            M("Quelles affirmations sur les régions live ARIA sont correctes ?",
+              ["Elles servent à signaler des changements de contenu sans recharger la page", "role='status' est souvent utilisé pour des messages non urgents"],
+              ["Elles changent automatiquement la couleur du texte", "Elles sont incompatibles avec JavaScript"]),
+            M("Quels cas d'usage justifient l'utilisation d'une région aria-live ?",
+              ["Un message de confirmation après l'envoi d'un formulaire en AJAX", "Un compteur de résultats de recherche mis à jour dynamiquement"],
+              ["Le contenu statique du pied de page", "Le titre principal figé de la page"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Sémantique du contenu : address et l'élément de coordonnées",
+        "Représenter des informations de contact avec l'élément address.",
+        [
+            S("Quel élément HTML représente les informations de contact de l'auteur ou du propriétaire d'un document ou d'une section ?",
+              ["<address>", "<contact>", "<author>", "<info>"]),
+            S("L'élément <address> doit-il être utilisé pour n'importe quelle adresse postale mentionnée dans un texte, par exemple dans un article narratif ?",
+              ["Non, il est réservé aux coordonnées de contact pertinentes pour le document ou la section, pas à toute adresse mentionnée", "Oui, systématiquement pour toute adresse", "Seulement pour les adresses email", "Seulement à l'intérieur de <nav>"]),
+            S("Dans quel contexte place-t-on souvent un <address> en pratique, par exemple sur le site d'une entreprise ?",
+              ["Dans le footer, pour les coordonnées de contact de l'organisation", "Dans le head du document", "Dans une balise meta", "Dans l'attribut alt d'une image"]),
+            Sx("Quel type de contenu l'élément <address> ne doit-il PAS contenir selon la spécification ?",
+               ["Des informations sans rapport avec le contact, comme une date de publication seule ou un historique narratif", "Un lien mailto vers une adresse email", "Un numéro de téléphone", "Un nom d'organisation"], 0),
+            T("L'élément <address> peut contenir un lien <a href='mailto:...'> vers une adresse email de contact.", True),
+            T("L'élément <address> peut être utilisé plusieurs fois dans un document, par exemple un par article avec son propre auteur.", True),
+            M("Quels contenus sont appropriés à l'intérieur de <address> ?",
+              ["Une adresse postale de contact", "Un email de contact", "Un numéro de téléphone de contact"],
+              ["La date de publication seule sans lien avec un contact", "Le titre principal de la page"]),
+            M("Quelles affirmations sur <address> sont correctes ?",
+              ["Il représente sémantiquement des coordonnées de contact, pas n'importe quelle adresse", "Il peut apparaître dans le footer d'un article ou d'une page"],
+              ["Il remplace obligatoirement <footer>", "Il doit toujours être en majuscules visuellement"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "L'attribut accesskey et les raccourcis clavier natifs",
+        "Définir des raccourcis clavier d'accès rapide à certains éléments.",
+        [
+            S("Quel attribut global permet d'associer un raccourci clavier natif à un élément pour y accéder rapidement ?",
+              ["accesskey", "shortcut", "hotkey", "keybind"]),
+            S("Pourquoi l'usage de accesskey est-il aujourd'hui débattu et utilisé avec prudence ?",
+              ["Les combinaisons de touches varient selon le navigateur et le système, créant des conflits possibles avec des raccourcis existants", "Il est interdit par le HTML5", "Il ne fonctionne sur aucun navigateur", "Il remplace obligatoirement la souris"]),
+            S("Quel élément peut typiquement recevoir un attribut accesskey pour un accès rapide, comme un champ de recherche ?",
+              ["Un <input> ou un <a>", "Uniquement <meta>", "Uniquement <title>", "Uniquement <html>"]),
+            Sx("Comment l'utilisateur déclenche-t-il généralement un raccourci accesskey, en combinaison avec une touche modificatrice spécifique au navigateur ?",
+               ["En combinant une touche modificatrice (variable selon navigateur/OS) avec la touche définie dans accesskey", "En cliquant simplement avec la souris", "Automatiquement au chargement de la page", "En double-cliquant sur l'élément"], 0),
+            T("La valeur de accesskey est une simple lettre ou chiffre, et son activation dépend de combinaisons spécifiques au navigateur et au système.", True),
+            T("accesskey fonctionne de façon strictement identique sur tous les navigateurs et systèmes d'exploitation sans aucune variation.", False),
+            M("Quelles précautions sont recommandées lors de l'utilisation de accesskey ?",
+              ["Éviter les lettres déjà utilisées par des raccourcis système ou navigateur courants", "Documenter le raccourci pour l'utilisateur si possible"],
+              ["Utiliser systématiquement toutes les lettres de l'alphabet sur chaque page", "Combiner accesskey uniquement avec des images sans texte"]),
+            M("Quelles affirmations sur accesskey sont correctes ?",
+              ["C'est un attribut global applicable à de nombreux éléments interactifs", "Son comportement précis dépend de l'agent utilisateur"],
+              ["Il remplace obligatoirement la navigation au clavier standard (Tab)", "Il est uniquement disponible en HTML5.2 et versions ultérieures exclusivement"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Liens d'ancrage et structure d'une longue page (table des matières)",
+        "Construire une navigation interne efficace pour un document long.",
+        [
+            S("Quel attribut HTML permet de cibler un élément comme destination d'une ancre interne (par exemple #section1) ?",
+              ["id, attribut global identifiant l'élément cible", "name uniquement, obligatoire en HTML5", "anchor", "target"]),
+            S("Quelle structure HTML est généralement utilisée pour construire une table des matières cliquable en haut d'un long article ?",
+              ["Une liste <ul> ou <ol> de liens <a href='#id'>", "Un <table> uniquement", "Une suite de <meta>", "Un <iframe> par section"]),
+            S("Quel comportement par défaut du navigateur se produit lorsqu'on clique sur un lien d'ancre interne valide ?",
+              ["La page défile jusqu'à l'élément correspondant à l'identifiant ciblé", "La page se recharge entièrement", "Un nouvel onglet s'ouvre", "Rien ne se passe sans JavaScript"]),
+            Sx("Quelle propriété CSS peut rendre le défilement vers une ancre interne plus fluide visuellement, plutôt qu'instantané ?",
+               ["scroll-behavior: smooth", "anchor-behavior: smooth", "transition: scroll", "animation: anchor"], 0),
+            T("Historiquement, on utilisait aussi <a name='section1'></a> comme ancre cible, mais l'attribut id est aujourd'hui la méthode privilégiée.", True),
+            T("Un identifiant id ciblé par une ancre doit obligatoirement être placé sur un élément <a>.", False),
+            M("Quelles affirmations sur les ancres internes d'une page sont correctes ?",
+              ["Elles permettent une navigation rapide dans un document long", "Elles reposent sur la correspondance entre le fragment d'URL (#id) et l'attribut id de l'élément cible"],
+              ["Elles nécessitent obligatoirement JavaScript pour fonctionner au minimum", "Elles ne peuvent cibler que des éléments <div>"]),
+            M("Quels éléments composent typiquement une table des matières interne accessible ?",
+              ["Une liste de liens", "Des identifiants uniques sur les sections cibles"],
+              ["Des balises meta uniquement", "Des commentaires HTML uniquement"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Comparaison HTML4 et HTML5 : principales évolutions",
+        "Situer les apports majeurs de HTML5 par rapport aux versions précédentes.",
+        [
+            S("Quelle catégorie d'éléments est l'un des apports majeurs de HTML5 par rapport à HTML4 pour structurer le contenu ?",
+              ["Les éléments sémantiques comme header, nav, article, section", "Les tableaux de mise en page", "Les frames", "Les balises font et center"]),
+            S("Quel élément HTML5 a permis d'intégrer nativement de la vidéo sans dépendre d'un plugin externe comme Flash ?",
+              ["<video>", "<embed> uniquement", "<object> uniquement", "<media>"]),
+            S("Quel type de déclaration de doctype a été considérablement simplifié en HTML5 par rapport à HTML4 ?",
+              ["<!DOCTYPE html>, court et sans référence à une DTD externe", "Une URL complète vers une DTD W3C obligatoire", "Un numéro de version obligatoire dans le doctype", "Aucun doctype n'est nécessaire en HTML5"]),
+            Sx("Parmi les apports suivants, lequel est spécifiquement lié à HTML5 plutôt qu'à HTML4 ?",
+               ["Les API de formulaire avancées comme les nouveaux types d'input (date, color, range)", "L'élément <table> pour les tableaux", "L'élément <a> pour les liens", "L'élément <p> pour les paragraphes"], 0),
+            T("HTML5 a introduit des éléments comme canvas et svg intégré, permettant des graphismes dynamiques sans plugin.", True),
+            T("HTML4 proposait déjà nativement les éléments <video> et <audio> avec lecture sans plugin.", False),
+            M("Quels apports sont spécifiquement associés à l'arrivée de HTML5 ?",
+              ["Les éléments sémantiques de structure", "La validation native des formulaires", "Les éléments audio et video natifs"],
+              ["L'élément <table>", "L'élément <a>"]),
+            M("Quelles affirmations sur l'évolution HTML4 vers HTML5 sont correctes ?",
+              ["Le doctype est devenu plus simple à écrire", "De nouveaux types d'input ont été ajoutés pour les formulaires"],
+              ["Tous les anciens éléments de HTML4 ont été supprimés sans exception", "Le CSS est devenu obligatoire pour qu'un document HTML5 soit valide"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "L'attribut wrap et la mise en forme du texte dans textarea",
+        "Contrôler le retour à la ligne du texte saisi dans une zone de texte.",
+        [
+            S("Quel attribut de <textarea> contrôle la manière dont le texte est enveloppé (retour à la ligne) lors de la soumission ?",
+              ["wrap", "linebreak", "newline", "fold"]),
+            S("Quelle valeur de wrap indique que le texte est envoyé tel que saisi, sans insertion de retours à la ligne supplémentaires liés à l'affichage ?",
+              ["off (ou soft selon le navigateur, sans insertion physique)", "hard uniquement", "auto", "break"]),
+            S("Quelle valeur de wrap insère physiquement des retours à la ligne dans les données soumises là où le texte est visuellement enveloppé ?",
+              ["hard (nécessite généralement l'attribut cols)", "soft", "off", "none"]),
+            Sx("Pourquoi l'attribut cols est-il pertinent en complément de wrap='hard' ?",
+               ["Parce que la largeur en colonnes déterminent où les retours à la ligne physiques sont insérés", "Parce que cols définit la couleur du texte", "Parce que cols active la validation HTML5", "Parce que cols remplace l'attribut rows"], 0),
+            T("Par défaut, sans attribut wrap spécifié, le comportement le plus commun observé est proche de 'soft' (retour visuel sans insertion physique systématique).", True),
+            T("L'attribut wrap n'existe que pour les éléments input de type text, jamais pour textarea.", False),
+            M("Quelles affirmations sur le retour à la ligne dans textarea sont correctes ?",
+              ["Le comportement peut varier selon la valeur de wrap choisie", "Le texte affiché peut différer légèrement du texte réellement soumis selon la configuration"],
+              ["wrap empêche toute saisie de texte", "wrap est un attribut obligatoire pour valider le HTML"]),
+            M("Quels attributs influencent l'affichage et le comportement d'un textarea ?",
+              ["wrap", "cols", "rows"],
+              ["step", "min"]),
+        ],
+    ))
+
+    quizzes.append(quiz(
+        "Les bonnes pratiques de nommage des attributs id et class",
+        "Adopter des conventions claires pour faciliter la maintenance du code HTML.",
+        [
+            S("Pourquoi est-il recommandé d'utiliser des noms de classes descriptifs plutôt que purement visuels, par exemple 'card' plutôt que 'rouge' ?",
+              ["Pour que le nom reste pertinent même si le style visuel change ultérieurement", "Parce que les noms visuels sont interdits par le HTML5", "Parce que cela améliore automatiquement le référencement", "Parce que cela accélère le chargement JavaScript"]),
+            S("Un même attribut id peut-il être utilisé sur deux éléments différents dans la même page de façon valide ?",
+              ["Non, un id doit être unique dans tout le document", "Oui, sans aucune restriction", "Seulement si les éléments sont de types différents", "Seulement à l'intérieur d'un même formulaire"]),
+            S("Une classe CSS peut-elle être appliquée à plusieurs éléments différents dans une même page ?",
+              ["Oui, une classe peut être réutilisée sur autant d'éléments que nécessaire", "Non, comme id, elle doit être unique", "Seulement deux fois maximum", "Seulement sur des éléments de type bloc"]),
+            Sx("Quel est l'intérêt principal de séparer plusieurs classes par un espace sur un même élément, par exemple class='card card--featured' ?",
+               ["Combiner plusieurs styles ou comportements réutilisables sur le même élément", "Cela est requis pour la validation HTML", "Cela définit deux identifiants distincts", "Cela crée automatiquement deux éléments"], 0),
+            T("Les valeurs des attributs class et id sont sensibles à la casse en HTML et en CSS.", True),
+            T("Il est recommandé d'utiliser des espaces dans la valeur d'un attribut id, comme id='ma section'.", False),
+            M("Quelles bonnes pratiques de nommage sont généralement recommandées pour id et class ?",
+              ["Préférer des noms descriptifs du rôle ou du contenu", "Garder une cohérence de convention dans tout le projet"],
+              ["Utiliser des espaces dans la valeur d'un id", "Dupliquer le même id sur plusieurs éléments"]),
+            M("Quelles affirmations sur id et class sont correctes ?",
+              ["id sert souvent de point d'ancrage JavaScript ou CSS spécifique à un seul élément", "class est idéale pour appliquer un style ou comportement partagé"],
+              ["class doit être unique comme id", "id ne peut jamais être utilisé en CSS"]),
+        ],
+    ))
+
+    return quizzes

@@ -4,16 +4,30 @@ import type { QuizDraft } from "@/types";
 
 export const dynamic = "force-dynamic";
 
+const ALLOWED_CATEGORIES = ["HTML", "CSS", "JS", "Java", "Python", "SQL"];
+
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   try {
     const body = (await req.json()) as QuizDraft;
+    if (!body?.title?.trim()) {
+      return NextResponse.json({ error: "Titre requis" }, { status: 400 });
+    }
+    if (!Array.isArray(body.questions) || body.questions.length === 0) {
+      return NextResponse.json(
+        { error: "Ajoute au moins une question." },
+        { status: 400 },
+      );
+    }
+    const category = ALLOWED_CATEGORIES.includes(body.category)
+      ? body.category
+      : "HTML";
     const admin = createAdminClient();
 
     const { error: eu } = await admin
       .from("quizzes")
       .update({
         title: body.title.trim(),
-        category: body.category,
+        category,
         description: body.description?.trim() || null,
       })
       .eq("id", params.id);

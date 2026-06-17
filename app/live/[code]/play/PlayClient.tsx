@@ -129,7 +129,7 @@ export function PlayClient({
         particleCount: 140,
         spread: 90,
         origin: { y: 0.6 },
-        colors: ["#7c3aed", "#2563eb", "#a78bfa", "#22c55e", "#f59e0b"],
+        colors: ["#3ecf8e", "#1f9d63", "#7ffbc4", "#22c55e", "#f59e0b"],
       });
     }
   }, [quiz.status, participants, session]);
@@ -197,7 +197,7 @@ export function PlayClient({
       <main className="mx-auto min-h-screen max-w-2xl px-6 py-10 animate-fade-in">
         <div className="space-y-6">
           <div className="text-center">
-            <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-violet to-accent-blue shadow-glow">
+            <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow">
               <Sparkles className="h-5 w-5 text-white" />
             </span>
             <h1 className="text-3xl font-bold">Quiz terminé</h1>
@@ -246,7 +246,7 @@ export function PlayClient({
     return (
       <main className="mx-auto min-h-screen max-w-md px-6 py-10">
         <div className="space-y-6 text-center animate-fade-in">
-          <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-violet to-accent-blue shadow-glow animate-pulse-soft">
+          <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow animate-pulse-soft">
             <Sparkles className="h-5 w-5 text-white" />
           </span>
           <div>
@@ -275,7 +275,7 @@ export function PlayClient({
                     className={cn(
                       "flex items-center gap-2 rounded-lg border border-bg-border bg-bg-soft/30 px-3 py-2 text-sm",
                       p.id === session.participant_id &&
-                        "border-accent-violet/60",
+                        "border-accent-primary/60",
                     )}
                   >
                     <span className="h-2 w-2 rounded-full bg-emerald-400" />
@@ -349,8 +349,8 @@ export function PlayClient({
                   className={cn(
                     "w-full rounded-xl border px-4 py-3 text-left transition",
                     checked
-                      ? "border-accent-violet/60 bg-accent-violet/15 text-white shadow-glow"
-                      : "border-bg-border bg-bg-soft/40 hover:border-accent-violet/40 hover:bg-bg-soft",
+                      ? "border-accent-primary/60 bg-accent-primary/15 text-white shadow-glow"
+                      : "border-bg-border bg-bg-soft/40 hover:border-accent-primary/40 hover:bg-bg-soft",
                     hasSubmitted && "opacity-60",
                   )}
                 >

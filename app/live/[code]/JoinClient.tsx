@@ -70,7 +70,7 @@ export function JoinClient({ quiz, code }: { quiz: Quiz; code: string }) {
   return (
     <div className="w-full space-y-6 animate-fade-in">
       <div className="text-center">
-        <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-violet to-accent-blue shadow-glow">
+        <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow">
           <Sparkles className="h-5 w-5 text-white" />
         </span>
         <h1 className="text-2xl font-bold">{quiz.title}</h1>

@@ -7,7 +7,7 @@ export default function HomePage() {
     <main className="mx-auto flex min-h-screen max-w-5xl flex-col px-6 py-12">
       <nav className="mb-12 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent-violet to-accent-blue shadow-glow">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow">
             <Sparkles className="h-4 w-4 text-white" />
           </span>
           Quiz Live
@@ -18,7 +18,7 @@ export default function HomePage() {
       </nav>
 
       <section className="flex flex-1 flex-col items-center justify-center text-center">
-        <span className="chip border-accent-violet/40 bg-accent-violet/10 text-accent-glow">
+        <span className="chip border-accent-primary/40 bg-accent-primary/10 text-accent-glow">
           <span className="h-1.5 w-1.5 rounded-full bg-accent-glow animate-pulse-soft" />
           Quiz en temps réel, sans inscription
         </span>
@@ -70,7 +70,7 @@ function Feature({
 }) {
   return (
     <div className="card p-5 text-left">
-      <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent-violet/30 to-accent-blue/30 text-accent-glow">
+      <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent-primary/30 to-accent-secondary/30 text-accent-glow">
         <Icon className="h-4 w-4" />
       </span>
       <h3 className="text-sm font-semibold">{title}</h3>

@@ -27,8 +27,8 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-bg text-zinc-100 font-sans antialiased">
         <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute -top-40 -left-40 h-[40rem] w-[40rem] rounded-full bg-accent-violet/20 blur-3xl" />
-          <div className="absolute -bottom-40 -right-40 h-[40rem] w-[40rem] rounded-full bg-accent-blue/20 blur-3xl" />
+          <div className="absolute -top-40 -left-40 h-[40rem] w-[40rem] rounded-full bg-accent-primary/20 blur-3xl" />
+          <div className="absolute -bottom-40 -right-40 h-[40rem] w-[40rem] rounded-full bg-accent-secondary/20 blur-3xl" />
         </div>
         {children}
       </body>
