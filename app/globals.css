@@ -9,8 +9,10 @@
 html,
 body {
   background-color: #121212;
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* Confort tactile : pas de surlignage bleu au tap, sélection stylée */
 ::selection {
   background: rgba(62, 207, 142, 0.35);
   color: #fff;
@@ -38,7 +40,8 @@ body {
   }
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all
-           disabled:cursor-not-allowed disabled:opacity-40;
+           active:scale-[.97] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100
+           select-none touch-manipulation;
   }
   .btn-primary {
     @apply btn bg-gradient-to-r from-accent-primary to-accent-secondary text-white
@@ -51,7 +54,7 @@ body {
     @apply btn border border-red-500/40 bg-red-500/10 text-red-300 hover:bg-red-500/20;
   }
   .input {
-    @apply w-full rounded-xl border border-bg-border bg-bg-soft/60 px-4 py-2.5 text-sm
+    @apply w-full rounded-xl border border-bg-border bg-bg-soft/60 px-4 py-2.5 text-base
            text-zinc-100 placeholder:text-zinc-500
            focus:outline-none focus:ring-2 focus:ring-accent-primary/60 focus:border-accent-primary/60
            transition;
@@ -64,6 +67,50 @@ body {
   }
 }
 
+@layer utilities {
+  /* Texte en dégradé (statique) */
+  .gradient-text {
+    background-image: linear-gradient(to right, #7ffbc4, #3ecf8e, #1f9d63);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Texte en dégradé animé (autonome) */
+  .gradient-text-animated {
+    background-image: linear-gradient(
+      to right,
+      #7ffbc4,
+      #3ecf8e,
+      #38bdf8,
+      #3ecf8e,
+      #7ffbc4
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-pan 6s ease infinite;
+  }
+
+  /* Délais d'apparition en cascade */
+  .delay-0 { animation-delay: 0ms; }
+  .delay-1 { animation-delay: 60ms; }
+  .delay-2 { animation-delay: 120ms; }
+  .delay-3 { animation-delay: 180ms; }
+  .delay-4 { animation-delay: 240ms; }
+  .delay-5 { animation-delay: 300ms; }
+
+  /* Respect des marges sûres iOS (encoches) */
+  .safe-px {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  .safe-pb {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
+}
+
 .shimmer {
   background: linear-gradient(
     90deg,
@@ -72,4 +119,46 @@ body {
     rgba(62, 207, 142, 0) 100%
   );
   background-size: 200% 100%;
+}
+
+/* Bordure dégradée animée (utilisée sur la carte question) */
+.border-glow {
+  position: relative;
+}
+.border-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, #7ffbc4, #3ecf8e, #38bdf8, #3ecf8e);
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: gradient-pan 6s ease infinite;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Keyframe locale pour les dégradés animés (indépendante de Tailwind) */
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Accessibilité : coupe les animations si l'utilisateur le demande */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

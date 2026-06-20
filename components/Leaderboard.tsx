@@ -40,18 +40,21 @@ export function Leaderboard({
         return (
           <li
             key={p.id}
+            style={{ animationDelay: `${Math.min(idx, 9) * 60}ms` }}
             className={cn(
-              "flex items-center gap-3 rounded-xl border border-bg-border bg-bg-soft/40 px-4 transition",
+              "flex animate-slide-up items-center gap-3 rounded-xl border border-bg-border bg-bg-soft/40 px-4 transition",
               compact ? "py-2" : "py-3",
               isMe && "ring-2 ring-accent-primary/60 border-accent-primary/60",
-              idx === 0 && "bg-amber-400/5 border-amber-400/30",
+              idx === 0 && "border-amber-400/40 bg-gradient-to-r from-amber-400/10 to-transparent",
+              idx === 1 && "border-zinc-300/25 bg-gradient-to-r from-zinc-300/5 to-transparent",
+              idx === 2 && "border-orange-400/25 bg-gradient-to-r from-orange-400/5 to-transparent",
             )}
           >
             <span
               className={cn(
-                "flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold",
+                "flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold tabular-nums",
                 podium
-                  ? `ring-2 ${podium.ring} ${podium.color} bg-bg`
+                  ? `animate-pop-in ring-2 ${podium.ring} ${podium.color} bg-bg`
                   : "bg-bg-border text-zinc-300",
               )}
             >

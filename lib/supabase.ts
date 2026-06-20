@@ -32,6 +32,13 @@ export function createAdminClient(): SupabaseClient {
   }
   return createClient(SUPABASE_URL, key, {
     auth: { persistSession: false },
+    global: {
+      // Empêche Next.js de mettre en cache les lectures Supabase côté serveur.
+      // Sans ça, une page rendue alors que la table était vide peut continuer
+      // à servir un résultat vide en cache même après l'ajout de données.
+      fetch: (input, init) =>
+        fetch(input as RequestInfo, { ...init, cache: "no-store" }),
+    },
   });
 }
 

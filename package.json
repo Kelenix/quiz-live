@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed": "node scripts/seed.mjs",
+    "seed:dry": "node scripts/seed.mjs --dry-run"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

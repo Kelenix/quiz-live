@@ -3,16 +3,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti";
-import { CheckCircle2, Loader2, Sparkles } from "lucide-react";
+import {
+  CheckCircle2,
+  Loader2,
+  Sparkles,
+  PartyPopper,
+  Trophy,
+} from "lucide-react";
 import { getBrowserClient } from "@/lib/supabase";
 import { Timer } from "@/components/Timer";
 import { Leaderboard } from "@/components/Leaderboard";
 import { cn, questionTypeLabel } from "@/lib/utils";
-import type {
-  Participant,
-  Quiz,
-  QuestionWithAnswers,
-} from "@/types";
+import type { Participant, Quiz, QuestionWithAnswers } from "@/types";
 
 interface StoredSession {
   participant_id: string;
@@ -126,13 +128,26 @@ export function PlayClient({
     if (myRank >= 0 && myRank <= 2) {
       confettiFired.current = true;
       confetti({
-        particleCount: 140,
-        spread: 90,
+        particleCount: 160,
+        spread: 95,
         origin: { y: 0.6 },
-        colors: ["#3ecf8e", "#1f9d63", "#7ffbc4", "#22c55e", "#f59e0b"],
+        colors: ["#3ecf8e", "#1f9d63", "#7ffbc4", "#38bdf8", "#a855f7", "#fbbf24"],
       });
     }
   }, [quiz.status, participants, session]);
+
+  // Petit éclat de confetti quand on a une bonne réponse
+  useEffect(() => {
+    if (feedback?.is_correct) {
+      confetti({
+        particleCount: 60,
+        spread: 70,
+        startVelocity: 32,
+        origin: { y: 0.7 },
+        colors: ["#3ecf8e", "#7ffbc4", "#38bdf8", "#fbbf24"],
+      });
+    }
+  }, [feedback]);
 
   const toggle = (answerId: string) => {
     if (!currentQuestion) return;
@@ -183,7 +198,7 @@ export function PlayClient({
   if (!session) {
     return (
       <main className="flex min-h-screen items-center justify-center text-zinc-400">
-        <Loader2 className="h-5 w-5 animate-spin" />
+        <Loader2 className="h-6 w-6 animate-spin text-accent-primary" />
       </main>
     );
   }
@@ -193,30 +208,38 @@ export function PlayClient({
     const sorted = [...participants].sort((a, b) => b.score - a.score);
     const me = sorted.find((p) => p.id === session.participant_id);
     const myRank = sorted.findIndex((p) => p.id === session.participant_id) + 1;
+    const podium = myRank >= 1 && myRank <= 3;
     return (
-      <main className="mx-auto min-h-screen max-w-2xl px-6 py-10 animate-fade-in">
+      <main className="mx-auto min-h-screen max-w-2xl safe-px safe-pb py-10">
         <div className="space-y-6">
-          <div className="text-center">
-            <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow">
-              <Sparkles className="h-5 w-5 text-white" />
+          <div className="text-center animate-slide-up">
+            <span className="mb-3 inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow-lg animate-float">
+              {podium ? (
+                <Trophy className="h-7 w-7 text-white" />
+              ) : (
+                <Sparkles className="h-7 w-7 text-white" />
+              )}
             </span>
-            <h1 className="text-3xl font-bold">Quiz terminé</h1>
+            <h1 className="text-3xl font-extrabold gradient-text-animated">
+              Quiz terminé
+            </h1>
             <p className="mt-1 text-sm text-zinc-400">{quiz.title}</p>
           </div>
 
           {me && (
-            <div className="card p-6 text-center">
+            <div className="card border-glow p-6 text-center animate-pop-in">
               <p className="text-xs uppercase tracking-widest text-zinc-400">
                 Ton score
               </p>
-              <p className="my-2 text-5xl font-bold text-accent-glow">
+              <p className="my-2 text-6xl font-extrabold tabular-nums gradient-text animate-score-pop">
                 {me.score}
               </p>
               <p className="text-sm text-zinc-400">
                 Position {myRank} / {sorted.length}
               </p>
-              {myRank >= 1 && myRank <= 3 && (
-                <p className="mt-3 text-sm font-medium text-emerald-300">
+              {podium && (
+                <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold/20 to-accent-primary/20 px-4 py-1.5 text-sm font-semibold text-emerald-200">
+                  <PartyPopper className="h-4 w-4" />
                   {myRank === 1
                     ? "Bravo, tu remportes ce quiz !"
                     : myRank === 2
@@ -227,7 +250,7 @@ export function PlayClient({
             </div>
           )}
 
-          <div className="card p-6">
+          <div className="card p-6 animate-slide-up delay-2">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-zinc-400">
               Classement final
             </h2>
@@ -244,16 +267,16 @@ export function PlayClient({
   // === WAITING ===
   if (quiz.status === "waiting") {
     return (
-      <main className="mx-auto min-h-screen max-w-md px-6 py-10">
-        <div className="space-y-6 text-center animate-fade-in">
-          <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow animate-pulse-soft">
-            <Sparkles className="h-5 w-5 text-white" />
+      <main className="mx-auto min-h-screen max-w-md safe-px safe-pb py-10">
+        <div className="space-y-6 text-center animate-slide-up">
+          <span className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-accent-primary to-accent-secondary shadow-glow-lg animate-pulse-soft">
+            <Sparkles className="h-7 w-7 text-white" />
           </span>
           <div>
-            <h1 className="text-xl font-bold">En attente du lancement…</h1>
-            <p className="mt-1 text-sm text-zinc-400">
-              {quiz.title}
-            </p>
+            <h1 className="text-2xl font-extrabold gradient-text-animated">
+              En attente du lancement…
+            </h1>
+            <p className="mt-1 text-sm text-zinc-400">{quiz.title}</p>
             <p className="mt-2 text-xs text-zinc-500">
               Connecté en tant que{" "}
               <span className="font-mono text-accent-glow">
@@ -269,19 +292,25 @@ export function PlayClient({
             <ul className="space-y-2">
               {[...participants]
                 .sort((a, b) => a.joined_at.localeCompare(b.joined_at))
-                .map((p) => (
+                .map((p, idx) => (
                   <li
                     key={p.id}
+                    style={{ animationDelay: `${Math.min(idx, 8) * 50}ms` }}
                     className={cn(
-                      "flex items-center gap-2 rounded-lg border border-bg-border bg-bg-soft/30 px-3 py-2 text-sm",
+                      "flex animate-slide-up items-center gap-2 rounded-lg border border-bg-border bg-bg-soft/30 px-3 py-2.5 text-sm",
                       p.id === session.participant_id &&
-                        "border-accent-primary/60",
+                        "border-accent-primary/60 bg-accent-primary/10",
                     )}
                   >
-                    <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                    </span>
                     {p.username}
                     {p.id === session.participant_id && (
-                      <span className="ml-auto text-xs text-accent-glow">vous</span>
+                      <span className="ml-auto text-xs text-accent-glow">
+                        vous
+                      </span>
                     )}
                   </li>
                 ))}
@@ -299,30 +328,44 @@ export function PlayClient({
   if (!currentQuestion) {
     return (
       <main className="flex min-h-screen items-center justify-center text-zinc-400">
-        <Loader2 className="h-5 w-5 animate-spin" />
+        <Loader2 className="h-6 w-6 animate-spin text-accent-primary" />
       </main>
     );
   }
 
   const hasSubmitted = submittedFor === currentQuestion.id;
   const totalQuestions = questions.length;
+  const progressPct = ((quiz.current_question_index + 1) / totalQuestions) * 100;
 
   return (
-    <main className="mx-auto min-h-screen max-w-2xl px-6 py-10">
-      <div className="space-y-6 animate-fade-in">
-        <div className="flex items-center justify-between text-xs text-zinc-500">
-          <span>
-            Question {quiz.current_question_index + 1} / {totalQuestions}
-          </span>
-          <span className="font-mono text-accent-glow">{session.username}</span>
+    <main className="mx-auto min-h-screen max-w-2xl safe-px safe-pb py-8">
+      <div className="space-y-5">
+        {/* En-tête + progression */}
+        <div className="space-y-2 animate-fade-in">
+          <div className="flex items-center justify-between text-xs text-zinc-500">
+            <span className="font-medium">
+              Question {quiz.current_question_index + 1} / {totalQuestions}
+            </span>
+            <span className="font-mono text-accent-glow">{session.username}</span>
+          </div>
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-border">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-accent-glow via-accent-primary to-accent-secondary transition-all duration-500 ease-out"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
         </div>
 
-        <div className="card p-6 space-y-5">
+        {/* Carte question (re-anime à chaque question grâce à la key) */}
+        <div
+          key={currentQuestion.id}
+          className="card border-glow p-5 sm:p-6 space-y-5 animate-slide-up"
+        >
           <div>
-            <span className="chip border-bg-border bg-bg-soft text-zinc-300">
+            <span className="chip border-accent-primary/30 bg-accent-primary/10 text-accent-glow">
               {questionTypeLabel(currentQuestion.type)}
             </span>
-            <h1 className="mt-3 text-xl font-semibold leading-snug">
+            <h1 className="mt-3 text-xl font-bold leading-snug sm:text-2xl">
               {currentQuestion.statement}
             </h1>
           </div>
@@ -337,8 +380,8 @@ export function PlayClient({
             />
           )}
 
-          <div className="space-y-2">
-            {currentQuestion.answers.map((a) => {
+          <div className="space-y-2.5">
+            {currentQuestion.answers.map((a, idx) => {
               const checked = selected.includes(a.id);
               return (
                 <button
@@ -346,31 +389,32 @@ export function PlayClient({
                   type="button"
                   disabled={hasSubmitted}
                   onClick={() => toggle(a.id)}
+                  style={{ animationDelay: `${idx * 55}ms` }}
                   className={cn(
-                    "w-full rounded-xl border px-4 py-3 text-left transition",
+                    "group w-full animate-slide-up touch-manipulation rounded-2xl border px-4 py-4 text-left transition-all active:scale-[.98]",
                     checked
-                      ? "border-accent-primary/60 bg-accent-primary/15 text-white shadow-glow"
-                      : "border-bg-border bg-bg-soft/40 hover:border-accent-primary/40 hover:bg-bg-soft",
+                      ? "border-accent-primary bg-accent-primary/15 text-white shadow-glow"
+                      : "border-bg-border bg-bg-soft/40 hover:border-accent-primary/50 hover:bg-bg-soft",
                     hasSubmitted && "opacity-60",
                   )}
                 >
                   <div className="flex items-center gap-3">
                     <span
                       className={cn(
-                        "flex h-5 w-5 shrink-0 items-center justify-center border-2",
+                        "flex h-6 w-6 shrink-0 items-center justify-center border-2 transition-all",
                         currentQuestion.type === "multiple"
                           ? "rounded-md"
                           : "rounded-full",
                         checked
-                          ? "border-accent-glow bg-accent-glow"
-                          : "border-zinc-500",
+                          ? "scale-110 border-accent-glow bg-accent-glow"
+                          : "border-zinc-500 group-hover:border-accent-primary/60",
                       )}
                     >
                       {checked && (
-                        <CheckCircle2 className="h-3 w-3 text-bg" />
+                        <CheckCircle2 className="h-4 w-4 animate-pop-in text-bg" />
                       )}
                     </span>
-                    <span className="flex-1 text-sm">{a.text}</span>
+                    <span className="flex-1 text-base">{a.text}</span>
                   </div>
                 </button>
               );
@@ -381,10 +425,10 @@ export function PlayClient({
             <button
               onClick={submit}
               disabled={selected.length === 0 || submitting}
-              className="btn-primary w-full"
+              className="btn-primary w-full py-4 text-base"
             >
               {submitting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
                 "Valider ma réponse"
               )}
@@ -392,25 +436,28 @@ export function PlayClient({
           ) : (
             <div
               className={cn(
-                "rounded-xl border p-4 text-center text-sm",
+                "animate-pop-in rounded-2xl border p-4 text-center text-sm",
                 feedback?.is_correct
                   ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
                   : feedback?.is_partial
                     ? "border-amber-500/40 bg-amber-500/10 text-amber-200"
-                    : feedback
-                      ? "border-bg-border bg-bg-soft/40 text-zinc-300"
-                      : "border-bg-border bg-bg-soft/40 text-zinc-300",
+                    : "border-bg-border bg-bg-soft/40 text-zinc-300",
               )}
             >
               {feedback ? (
                 <>
-                  <p className="font-semibold">
+                  <p className="flex items-center justify-center gap-2 text-base font-bold">
+                    {feedback.is_correct ? (
+                      <PartyPopper className="h-5 w-5" />
+                    ) : null}
                     {feedback.is_correct
                       ? "Bonne réponse !"
                       : feedback.is_partial
                         ? "Presque ! Réponse partielle."
                         : "Pas tout à fait."}
-                    {feedback.points > 0 && ` +${feedback.points} pts`}
+                    {feedback.points > 0 && (
+                      <span className="font-mono">+{feedback.points} pts</span>
+                    )}
                   </p>
                   <p className="mt-1 text-xs text-zinc-400">
                     En attente de la prochaine question…

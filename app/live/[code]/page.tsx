@@ -23,8 +23,8 @@ export default async function JoinPage({
   const quiz = await getQuiz(params.code);
   if (!quiz) {
     return (
-      <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6">
-        <div className="card w-full p-8 text-center space-y-3">
+      <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center safe-px py-10">
+        <div className="card w-full p-8 text-center space-y-3 animate-pop-in">
           <h1 className="text-xl font-bold">Quiz introuvable</h1>
           <p className="text-sm text-zinc-400">
             Le code <span className="font-mono">{params.code}</span> ne correspond à aucun quiz.
@@ -36,7 +36,7 @@ export default async function JoinPage({
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 py-10">
+    <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center safe-px py-10">
       <JoinClient quiz={quiz} code={params.code.toUpperCase()} />
     </main>
   );
