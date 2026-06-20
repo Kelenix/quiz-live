@@ -1,0 +1,15 @@
+# Dossiers de génération / brouillons (inutiles au runtime)
+_work
+_tmp_gen
+.tmp_gen
+scripts/tmp
+supabase/seed-data/_gen
+supabase/seed-data/_gen_css
+**/__pycache__
+
+# Fichiers de build locaux
+.next
+tsconfig.tsbuildinfo
+
+# Docs internes
+Quiz.md
