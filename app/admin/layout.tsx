@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
+import { AdminLogout } from "@/components/AdminLogout";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,9 +13,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </span>
             <span>Quiz Live · Admin</span>
           </Link>
-          <Link href="/" className="text-sm text-zinc-400 hover:text-zinc-200">
-            Accueil
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/"
+              className="text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+            >
+              Accueil
+            </Link>
+            <AdminLogout />
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>

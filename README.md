@@ -170,16 +170,22 @@ supabase/schema.sql             # tout le schéma DB + RLS + Realtime
    | `NEXT_PUBLIC_SUPABASE_URL` | `https://xxx.supabase.co` | Oui (préfixe `NEXT_PUBLIC_`) |
    | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJ...` (clé anon) | Oui |
    | `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...` (clé service_role) | **Non — secret, serveur uniquement** |
+   | `ADMIN_PASSWORD` | mot de passe d'accès à `/admin` | **Non — secret, serveur uniquement** |
 
 5. **Deploy**. À chaque `git push`, Vercel redéploie automatiquement.
 
-### ⚠️ Sécurité importante avant la mise en ligne publique
+### Authentification admin
 
-- **L'espace `/admin` n'a aucune authentification.** Toute personne connaissant l'URL peut créer, modifier ou **supprimer** des quiz. Avant de partager le site publiquement, protège `/admin` :
-  - le plus simple : **Vercel → Settings → Deployment Protection** (mot de passe ou Vercel Authentication), ou
-  - ajoute une vraie authentification (Supabase Auth / middleware).
-- Ne mets **jamais** la `service_role` dans une variable préfixée `NEXT_PUBLIC_` et ne la commite pas.
+- L'espace `/admin` (et les routes API `/api/quizzes/*`) est protégé par mot de passe via un **middleware** Next.js.
+- Le mot de passe vit dans la variable d'environnement **`ADMIN_PASSWORD`** (jamais en dur dans le code). À la première visite, l'utilisateur est redirigé vers `/admin/login`.
+- Connexion : cookie `httpOnly` valable 12 h. Bouton **Déconnexion** dans l'en-tête admin.
+- **Si `ADMIN_PASSWORD` n'est pas défini sur Vercel, la connexion admin échouera** : pense à l'ajouter dans les variables d'environnement Production + Preview.
+
+### ⚠️ Sécurité importante
+
+- Ne mets **jamais** la `service_role` ni `ADMIN_PASSWORD` dans une variable préfixée `NEXT_PUBLIC_`, et ne les commite pas.
 - Le fichier `.env.local.example` ne doit contenir que des valeurs factices (placeholders).
+- Choisis un `ADMIN_PASSWORD` fort et différent de tes autres mots de passe.
 
 > Auth Supabase non utilisée ici, donc aucune URL de redirection à configurer côté Supabase.
 
