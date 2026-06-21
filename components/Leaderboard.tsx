@@ -1,6 +1,9 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import type { Participant } from "@/types";
-import { Trophy, Medal, Award } from "lucide-react";
+import { Trophy, Medal, Award, ChevronUp, ChevronDown } from "lucide-react";
 
 const PODIUM = [
   { icon: Trophy, color: "text-amber-300", ring: "ring-amber-400/50" },
@@ -8,20 +11,48 @@ const PODIUM = [
   { icon: Award, color: "text-orange-400", ring: "ring-orange-400/40" },
 ];
 
+function sortParticipants(participants: Participant[]) {
+  return [...participants].sort(
+    (a, b) => b.score - a.score || a.username.localeCompare(b.username),
+  );
+}
+
 export function Leaderboard({
   participants,
   highlightId,
   limit = 10,
   compact = false,
+  showDelta = false,
 }: {
   participants: Participant[];
   highlightId?: string;
   limit?: number;
   compact?: boolean;
+  /** Affiche la variation de rang (▲/▼) depuis le dernier rendu — utile pendant une partie en direct. */
+  showDelta?: boolean;
 }) {
-  const sorted = [...participants]
-    .sort((a, b) => b.score - a.score || a.username.localeCompare(b.username))
-    .slice(0, limit);
+  const fullSorted = sortParticipants(participants);
+  const sorted = fullSorted.slice(0, limit);
+
+  // Suivi des rangs précédents pour afficher les décalages en direct.
+  const prevRanksRef = useRef<Map<string, number>>(new Map());
+  const deltaByParticipant = new Map<string, number>();
+  if (showDelta) {
+    fullSorted.forEach((p, idx) => {
+      const prevRank = prevRanksRef.current.get(p.id);
+      if (prevRank !== undefined && prevRank !== idx) {
+        deltaByParticipant.set(p.id, prevRank - idx); // > 0 = a gagné des places
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (!showDelta) return;
+    const map = new Map<string, number>();
+    sortParticipants(participants).forEach((p, idx) => map.set(p.id, idx));
+    prevRanksRef.current = map;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [participants, showDelta]);
 
   if (sorted.length === 0) {
     return (
@@ -37,6 +68,7 @@ export function Leaderboard({
         const podium = idx < 3 ? PODIUM[idx] : null;
         const Icon = podium?.icon;
         const isMe = highlightId === p.id;
+        const delta = deltaByParticipant.get(p.id);
         return (
           <li
             key={p.id}
@@ -68,6 +100,22 @@ export function Leaderboard({
                 </span>
               )}
             </span>
+            {delta !== undefined && (
+              <span
+                key={`${p.id}-${delta}`}
+                className={cn(
+                  "flex animate-pop-in items-center gap-0.5 text-xs font-bold tabular-nums",
+                  delta > 0 ? "text-emerald-400" : "text-red-400",
+                )}
+              >
+                {delta > 0 ? (
+                  <ChevronUp className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronDown className="h-3.5 w-3.5" />
+                )}
+                {Math.abs(delta)}
+              </span>
+            )}
             <span className="font-mono text-base font-bold tabular-nums text-accent-glow">
               {p.score}
             </span>

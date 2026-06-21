@@ -9,6 +9,7 @@ import {
   Sparkles,
   PartyPopper,
   Trophy,
+  X,
 } from "lucide-react";
 import { getBrowserClient } from "@/lib/supabase";
 import { Timer } from "@/components/Timer";
@@ -42,6 +43,7 @@ export function PlayClient({
     is_correct: boolean;
     is_partial: boolean;
   } | null>(null);
+  const [showRanking, setShowRanking] = useState(false);
   const questionStartedAt = useRef<number>(Date.now());
   const confettiFired = useRef(false);
 
@@ -336,140 +338,204 @@ export function PlayClient({
   const hasSubmitted = submittedFor === currentQuestion.id;
   const totalQuestions = questions.length;
   const progressPct = ((quiz.current_question_index + 1) / totalQuestions) * 100;
+  const rankedParticipants = [...participants].sort(
+    (a, b) => b.score - a.score || a.username.localeCompare(b.username),
+  );
+  const myRank = rankedParticipants.findIndex((p) => p.id === session.participant_id) + 1;
 
   return (
-    <main className="mx-auto min-h-screen max-w-2xl safe-px safe-pb py-8">
-      <div className="space-y-5">
-        {/* En-tête + progression */}
-        <div className="space-y-2 animate-fade-in">
-          <div className="flex items-center justify-between text-xs text-zinc-500">
-            <span className="font-medium">
-              Question {quiz.current_question_index + 1} / {totalQuestions}
-            </span>
-            <span className="font-mono text-accent-glow">{session.username}</span>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-border">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-accent-glow via-accent-primary to-accent-secondary transition-all duration-500 ease-out"
-              style={{ width: `${progressPct}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Carte question (re-anime à chaque question grâce à la key) */}
-        <div
-          key={currentQuestion.id}
-          className="card border-glow p-5 sm:p-6 space-y-5 animate-slide-up"
-        >
-          <div>
-            <span className="chip border-accent-primary/30 bg-accent-primary/10 text-accent-glow">
-              {questionTypeLabel(currentQuestion.type)}
-            </span>
-            <h1 className="mt-3 text-xl font-bold leading-snug sm:text-2xl">
-              {currentQuestion.statement}
-            </h1>
-          </div>
-
-          {currentQuestion.time_limit && !hasSubmitted && (
-            <Timer
-              seconds={currentQuestion.time_limit}
-              resetKey={currentQuestion.id}
-              onExpire={() => {
-                if (selected.length > 0 && !submitting) submit();
-              }}
-            />
-          )}
-
-          <div className="space-y-2.5">
-            {currentQuestion.answers.map((a, idx) => {
-              const checked = selected.includes(a.id);
-              return (
+    <main className="mx-auto min-h-screen max-w-5xl safe-px safe-pb py-8">
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-6 lg:items-start">
+        <div className="space-y-5">
+          {/* En-tête + progression */}
+          <div className="space-y-2 animate-fade-in">
+            <div className="flex items-center justify-between text-xs text-zinc-500">
+              <span className="font-medium">
+                Question {quiz.current_question_index + 1} / {totalQuestions}
+              </span>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-accent-glow">{session.username}</span>
                 <button
-                  key={a.id}
                   type="button"
-                  disabled={hasSubmitted}
-                  onClick={() => toggle(a.id)}
-                  style={{ animationDelay: `${idx * 55}ms` }}
-                  className={cn(
-                    "group w-full animate-slide-up touch-manipulation rounded-2xl border px-4 py-4 text-left transition-all active:scale-[.98]",
-                    checked
-                      ? "border-accent-primary bg-accent-primary/15 text-white shadow-glow"
-                      : "border-bg-border bg-bg-soft/40 hover:border-accent-primary/50 hover:bg-bg-soft",
-                    hasSubmitted && "opacity-60",
-                  )}
+                  onClick={() => setShowRanking(true)}
+                  className="chip border-accent-primary/30 bg-accent-primary/10 text-accent-glow lg:hidden"
                 >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={cn(
-                        "flex h-6 w-6 shrink-0 items-center justify-center border-2 transition-all",
-                        currentQuestion.type === "multiple"
-                          ? "rounded-md"
-                          : "rounded-full",
-                        checked
-                          ? "scale-110 border-accent-glow bg-accent-glow"
-                          : "border-zinc-500 group-hover:border-accent-primary/60",
-                      )}
-                    >
-                      {checked && (
-                        <CheckCircle2 className="h-4 w-4 animate-pop-in text-bg" />
-                      )}
-                    </span>
-                    <span className="flex-1 text-base">{a.text}</span>
-                  </div>
+                  <Trophy className="h-3.5 w-3.5" />
+                  {myRank > 0 ? `#${myRank}` : "—"} / {rankedParticipants.length}
                 </button>
-              );
-            })}
+              </div>
+            </div>
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg-border">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-accent-glow via-accent-primary to-accent-secondary transition-all duration-500 ease-out"
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
           </div>
 
-          {!hasSubmitted ? (
-            <button
-              onClick={submit}
-              disabled={selected.length === 0 || submitting}
-              className="btn-primary w-full py-4 text-base"
-            >
-              {submitting ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
-              ) : (
-                "Valider ma réponse"
-              )}
-            </button>
-          ) : (
-            <div
-              className={cn(
-                "animate-pop-in rounded-2xl border p-4 text-center text-sm",
-                feedback?.is_correct
-                  ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
-                  : feedback?.is_partial
-                    ? "border-amber-500/40 bg-amber-500/10 text-amber-200"
-                    : "border-bg-border bg-bg-soft/40 text-zinc-300",
-              )}
-            >
-              {feedback ? (
-                <>
-                  <p className="flex items-center justify-center gap-2 text-base font-bold">
-                    {feedback.is_correct ? (
-                      <PartyPopper className="h-5 w-5" />
-                    ) : null}
-                    {feedback.is_correct
-                      ? "Bonne réponse !"
-                      : feedback.is_partial
-                        ? "Presque ! Réponse partielle."
-                        : "Pas tout à fait."}
-                    {feedback.points > 0 && (
-                      <span className="font-mono">+{feedback.points} pts</span>
-                    )}
-                  </p>
-                  <p className="mt-1 text-xs text-zinc-400">
-                    En attente de la prochaine question…
-                  </p>
-                </>
-              ) : (
-                <p>Réponse enregistrée, en attente de la prochaine question…</p>
-              )}
+          {/* Carte question (re-anime à chaque question grâce à la key) */}
+          <div
+            key={currentQuestion.id}
+            className="card border-glow p-5 sm:p-6 space-y-5 animate-slide-up"
+          >
+            <div>
+              <span className="chip border-accent-primary/30 bg-accent-primary/10 text-accent-glow">
+                {questionTypeLabel(currentQuestion.type)}
+              </span>
+              <h1 className="mt-3 text-xl font-bold leading-snug sm:text-2xl">
+                {currentQuestion.statement}
+              </h1>
             </div>
-          )}
+
+            {currentQuestion.time_limit && !hasSubmitted && (
+              <Timer
+                seconds={currentQuestion.time_limit}
+                resetKey={currentQuestion.id}
+                onExpire={() => {
+                  if (selected.length > 0 && !submitting) submit();
+                }}
+              />
+            )}
+
+            <div className="space-y-2.5">
+              {currentQuestion.answers.map((a, idx) => {
+                const checked = selected.includes(a.id);
+                return (
+                  <button
+                    key={a.id}
+                    type="button"
+                    disabled={hasSubmitted}
+                    onClick={() => toggle(a.id)}
+                    style={{ animationDelay: `${idx * 55}ms` }}
+                    className={cn(
+                      "group w-full animate-slide-up touch-manipulation rounded-2xl border px-4 py-4 text-left transition-all active:scale-[.98]",
+                      checked
+                        ? "border-accent-primary bg-accent-primary/15 text-white shadow-glow"
+                        : "border-bg-border bg-bg-soft/40 hover:border-accent-primary/50 hover:bg-bg-soft",
+                      hasSubmitted && "opacity-60",
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={cn(
+                          "flex h-6 w-6 shrink-0 items-center justify-center border-2 transition-all",
+                          currentQuestion.type === "multiple"
+                            ? "rounded-md"
+                            : "rounded-full",
+                          checked
+                            ? "scale-110 border-accent-glow bg-accent-glow"
+                            : "border-zinc-500 group-hover:border-accent-primary/60",
+                        )}
+                      >
+                        {checked && (
+                          <CheckCircle2 className="h-4 w-4 animate-pop-in text-bg" />
+                        )}
+                      </span>
+                      <span className="flex-1 text-base">{a.text}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {!hasSubmitted ? (
+              <button
+                onClick={submit}
+                disabled={selected.length === 0 || submitting}
+                className="btn-primary w-full py-4 text-base"
+              >
+                {submitting ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  "Valider ma réponse"
+                )}
+              </button>
+            ) : (
+              <div
+                className={cn(
+                  "animate-pop-in rounded-2xl border p-4 text-center text-sm",
+                  feedback?.is_correct
+                    ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+                    : feedback?.is_partial
+                      ? "border-amber-500/40 bg-amber-500/10 text-amber-200"
+                      : "border-bg-border bg-bg-soft/40 text-zinc-300",
+                )}
+              >
+                {feedback ? (
+                  <>
+                    <p className="flex items-center justify-center gap-2 text-base font-bold">
+                      {feedback.is_correct ? (
+                        <PartyPopper className="h-5 w-5" />
+                      ) : null}
+                      {feedback.is_correct
+                        ? "Bonne réponse !"
+                        : feedback.is_partial
+                          ? "Presque ! Réponse partielle."
+                          : "Pas tout à fait."}
+                      {feedback.points > 0 && (
+                        <span className="font-mono">+{feedback.points} pts</span>
+                      )}
+                    </p>
+                    <p className="mt-1 text-xs text-zinc-400">
+                      En attente de la prochaine question…
+                    </p>
+                  </>
+                ) : (
+                  <p>Réponse enregistrée, en attente de la prochaine question…</p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Classement en direct — toujours visible à côté sur desktop */}
+        <aside className="hidden lg:sticky lg:top-8 lg:block">
+          <div className="card p-4 animate-slide-up">
+            <h2 className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              <Trophy className="h-3.5 w-3.5 text-accent-glow" /> Classement en direct
+            </h2>
+            <Leaderboard
+              participants={participants}
+              highlightId={session.participant_id}
+              limit={8}
+              compact
+              showDelta
+            />
+          </div>
+        </aside>
       </div>
+
+      {/* Panneau classement — mobile/tablette, ouvert via le badge de rang */}
+      {showRanking && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center lg:hidden">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
+            onClick={() => setShowRanking(false)}
+          />
+          <div className="relative w-full max-w-lg animate-slide-up rounded-t-3xl border border-bg-border bg-bg p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-glow-lg">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-zinc-400">
+                <Trophy className="h-4 w-4 text-accent-glow" /> Classement en direct
+              </h2>
+              <button
+                type="button"
+                onClick={() => setShowRanking(false)}
+                className="rounded-full p-1.5 text-zinc-400 hover:bg-bg-soft hover:text-zinc-200"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="max-h-[60vh] overflow-y-auto pr-1">
+              <Leaderboard
+                participants={participants}
+                highlightId={session.participant_id}
+                limit={50}
+                showDelta
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

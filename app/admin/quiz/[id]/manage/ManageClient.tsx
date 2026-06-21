@@ -288,7 +288,7 @@ export function ManageClient({
               <span>Classement en direct</span>
               <span className="text-zinc-500">Top 10</span>
             </h2>
-            <Leaderboard participants={participants} />
+            <Leaderboard participants={participants} showDelta />
           </div>
         </div>
       </div>
